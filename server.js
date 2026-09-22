@@ -1,14 +1,35 @@
+const path = require('path');
+const dotenv = require('dotenv');
+
+// Carrega as variáveis do arquivo .env (raiz do projeto)
+dotenv.config();
+
 const express = require('express');
 const mysql = require('mysql2/promise');
 const bcrypt = require('bcrypt');
 const cors = require('cors');
-const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
+
+// Injeção das credenciais do Supabase para o browser (site estático, sem bundler).
+// O supabaseClient.js lê window.__SUPABASE_URL__ e window.__SUPABASE_ANON_KEY__.
+// Mantém os segredos fora do frontend: apenas a anon key (pública) é exposta.
+app.get('/env-config.js', (req, res) => {
+  res.type('application/javascript');
+  res.send(
+    'window.__SUPABASE_URL__ = ' +
+      JSON.stringify(process.env.SUPABASE_URL || '') +
+      ';\n' +
+      'window.__SUPABASE_ANON_KEY__ = ' +
+      JSON.stringify(process.env.SUPABASE_ANON_KEY || '') +
+      ';\n'
+  );
+});
+
 app.use(express.static(path.join(__dirname)));
 
 // Configuração flexível para rodar localmente ou na nuvem (Render, Railway, etc.)

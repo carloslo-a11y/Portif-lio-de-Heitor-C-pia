@@ -1,1 +1,18 @@
+# Dependências
 node_modules/
+
+# Variáveis de ambiente (contêm segredos — NUNCA commitam)
+.env
+.env.*
+!.env.example
+
+# Arquivos de sistema
+desktop.ini
+.DS_Store
+Thumbs.db
+
+# Logs e build
+npm-debug.log*
+*.log
+dist/
+build/
