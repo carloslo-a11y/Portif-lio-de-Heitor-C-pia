@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colmeia de Estudos — Plano Pessoal 2026</title>
+    <meta name="description" content="Plano pessoal de estudos semanal, com tema de apicultura e efeito de vidro.">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐝</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --honey: #F5A623;
+            --honey-light: #FFCB6B;
+            --honey-dark: #C97B0C;
+            --jelly: #FFCB6B;
+            --bg-1: #150E08;
+            --bg-2: #231607;
+            --ink: #FBF3E6;
+            --muted: #B7A88F;
+            --glass-bg: rgba(255, 255, 255, .045);
+            --glass-border: rgba(245, 166, 35, .18);
+
+            --c-natureza: #6FBF4B;
+            --c-humanas: #E8813C;
+            --c-matematica: #4C93D8;
+            --c-linguagens: #D659B0;
+            --c-senai: #7FA0C4;
+            --c-revisao: #F5C24A;
+            --c-contraturno: #A889E0;
+            --c-descanso: #7A7267;
+
+            --font-display: 'Baloo 2', cursive;
+            --font-body: 'Nunito', sans-serif;
+            --radius: 22px;
+            --ease: cubic-bezier(.4, 0, .2, 1);
+            --bounce: cubic-bezier(.34, 1.56, .64, 1);
+        }
+
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--ink);
+            min-height: 100vh;
+            background:
+                radial-gradient(ellipse 900px 500px at 15% -10%, rgba(245, 166, 35, .14), transparent 60%),
+                radial-gradient(ellipse 700px 500px at 100% 10%, rgba(127, 212, 242, .08), transparent 55%),
+                linear-gradient(160deg, var(--bg-1), var(--bg-2));
+            background-attachment: fixed;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1,
+        h2 {
+            font-family: var(--font-display);
+            line-height: 1.15;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button {
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        a:focus-visible,
+        button:focus-visible {
+            outline: 3px solid var(--honey);
+            outline-offset: 3px;
+            border-radius: 8px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: .001ms !important;
+                transition-duration: .001ms !important;
+            }
+        }
+
+        /* honeycomb texture */
+        .hex-grid {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            background-image:
+                linear-gradient(30deg, rgba(245, 166, 35, .05) 12%, transparent 12.5%, transparent 87%, rgba(245, 166, 35, .05) 87.5%, rgba(245, 166, 35, .05)),
+                linear-gradient(150deg, rgba(245, 166, 35, .05) 12%, transparent 12.5%, transparent 87%, rgba(245, 166, 35, .05) 87.5%, rgba(245, 166, 35, .05)),
+                linear-gradient(30deg, rgba(245, 166, 35, .05) 12%, transparent 12.5%, transparent 87%, rgba(245, 166, 35, .05) 87.5%, rgba(245, 166, 35, .05)),
+                linear-gradient(150deg, rgba(245, 166, 35, .05) 12%, transparent 12.5%, transparent 87%, rgba(245, 166, 35, .05) 87.5%, rgba(245, 166, 35, .05));
+            background-size: 56px 98px;
+            background-position: 0 0, 0 0, 28px 49px, 28px 49px;
+            -webkit-mask-image: radial-gradient(ellipse 90% 80% at 50% 20%, #000 40%, transparent 100%);
+            mask-image: radial-gradient(ellipse 90% 80% at 50% 20%, #000 40%, transparent 100%);
+        }
+
+        .hex-deco {
+            position: fixed;
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            pointer-events: none;
+            z-index: 0;
+            filter: blur(2px);
+        }
+
+        .hex-glow-1 {
+            width: 360px;
+            height: 410px;
+            background: var(--honey);
+            opacity: .09;
+            top: -120px;
+            right: -100px;
+        }
+
+        .hex-glow-2 {
+            width: 220px;
+            height: 250px;
+            background: var(--jelly);
+            opacity: .06;
+            bottom: 6%;
+            left: -60px;
+        }
+
+        .wrap {
+            position: relative;
+            z-index: 2;
+            max-width: 1260px;
+            margin: 0 auto;
+            padding: 52px 24px 70px;
+        }
+
+        /* header brand row */
+        .brand-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 28px;
+            flex-wrap: wrap;
+            gap: 14px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-badge {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: linear-gradient(140deg, var(--honey-light), var(--honey-dark));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transform: rotate(-8deg);
+            box-shadow: 0 10px 22px rgba(245, 166, 35, .28);
+        }
+
+        .brand-name {
+            font-weight: 700;
+            color: var(--muted);
+            font-size: .95rem;
+            letter-spacing: .02em;
+        }
+
+        .brand-name strong {
+            color: var(--honey-light);
+        }
+
+        .print-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            padding: 11px 20px;
+            border-radius: 999px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+            color: var(--ink);
+            font-weight: 700;
+            font-size: .85rem;
+            transition: transform .3s var(--bounce), background .25s var(--ease);
+        }
+
+        .print-btn:hover {
+            background: rgba(245, 166, 35, .16);
+            transform: translateY(-2px);
+        }
+
+        /* title glass bar */
+        .title-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+            flex-wrap: wrap;
+            padding: 34px 40px;
+            border-radius: var(--radius);
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(18px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, .35), inset 0 1px 0 rgba(255, 255, 255, .06);
+            margin-bottom: 26px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .title-bar::before {
+            content: "";
+            position: absolute;
+            top: -40%;
+            left: -10%;
+            width: 260px;
+            height: 260px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(245, 166, 35, .28), transparent 70%);
+            pointer-events: none;
+        }
+
+        .title-left {
+            position: relative;
+            z-index: 2;
+            flex: 1;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .title-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 800;
+            font-size: clamp(1.7rem, 3.4vw, 2.5rem);
+            letter-spacing: normal;
+            text-transform: none;
+            color: #fff;
+            margin-bottom: 0;
+        }
+
+        .title-eyebrow em {
+            font-style: normal;
+            color: var(--honey);
+        }
+
+        .title-bar h1 {
+            font-size: clamp(1.7rem, 3.4vw, 2.5rem);
+            color: var(--ink);
+        }
+
+        .title-bar h1 em {
+            font-style: normal;
+            color: var(--honey);
+        }
+
+        .title-bar p {
+            color: var(--muted);
+            font-size: .92rem;
+            margin-top: 8px;
+            max-width: 480px;
+            font-weight: 600;
+        }
+
+        .year-badge {
+            position: relative;
+            z-index: 2;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 96px;
+            height: 96px;
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            background: linear-gradient(150deg, var(--honey-light), var(--honey-dark));
+            color: #2B1B0A;
+        }
+
+        .year-badge strong {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            line-height: 1;
+        }
+
+        .year-badge span {
+            font-size: .6rem;
+            font-weight: 800;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            margin-top: 2px;
+        }
+
+        /* legend */
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 26px;
+        }
+
+        .legend-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: .78rem;
+            font-weight: 700;
+            color: var(--muted);
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            padding: 7px 14px 7px 10px;
+            border-radius: 999px;
+        }
+
+        .legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        /* schedule glass table */
+        .schedule-glass {
+            border-radius: var(--radius);
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(18px);
+            box-shadow: 0 24px 60px rgba(0, 0, 0, .4), inset 0 1px 0 rgba(255, 255, 255, .06);
+            overflow-x: auto;
+            padding: 6px;
+        }
+
+        .schedule-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 6px;
+            min-width: 820px;
+        }
+
+        .schedule-table thead th {
+            padding: 16px 10px;
+            text-align: center;
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: 1rem;
+            color: var(--jelly);
+        }
+
+        .schedule-table thead th:first-child {
+            color: var(--muted);
+            font-size: .78rem;
+        }
+
+        .schedule-table thead th span {
+            display: block;
+            font-family: var(--font-body);
+            font-weight: 700;
+            font-size: .62rem;
+            color: var(--muted);
+            letter-spacing: .05em;
+            text-transform: uppercase;
+            margin-top: 2px;
+        }
+
+        .schedule-table tbody th {
+            padding: 0 14px;
+            text-align: left;
+            white-space: nowrap;
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: 1.02rem;
+            color: var(--jelly);
+            border-radius: 14px;
+            background: rgba(127, 212, 242, .06);
+        }
+
+        .schedule-table td {
+            padding: 14px 10px;
+            text-align: center;
+            vertical-align: middle;
+            background: rgba(255, 255, 255, .025);
+            border-radius: 14px;
+            transition: background .25s var(--ease), transform .25s var(--bounce);
+        }
+
+        .schedule-table td:hover {
+            background: rgba(255, 255, 255, .06);
+            transform: translateY(-2px);
+        }
+
+        .schedule-table tbody tr:not(:last-child) td,
+        .schedule-table tbody tr:not(:last-child) th {
+            margin-bottom: 6px;
+        }
+
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 9px 12px;
+            border-radius: 999px;
+            font-weight: 800;
+            font-size: .76rem;
+            letter-spacing: .01em;
+            width: 100%;
+        }
+
+        .chip-senai {
+            background: rgba(127, 160, 196, .16);
+            color: var(--c-senai);
+            border: 1px solid rgba(127, 160, 196, .35);
+        }
+
+        .chip-humanas {
+            background: rgba(232, 129, 60, .16);
+            color: var(--c-humanas);
+            border: 1px solid rgba(232, 129, 60, .35);
+        }
+
+        .chip-matematica {
+            background: rgba(76, 147, 216, .16);
+            color: var(--c-matematica);
+            border: 1px solid rgba(76, 147, 216, .35);
+        }
+
+        .chip-linguagens {
+            background: rgba(214, 89, 176, .16);
+            color: var(--c-linguagens);
+            border: 1px solid rgba(214, 89, 176, .35);
+        }
+
+        .chip-natureza {
+            background: rgba(111, 191, 75, .16);
+            color: var(--c-natureza);
+            border: 1px solid rgba(111, 191, 75, .35);
+        }
+
+        .chip-revisao {
+            background: rgba(245, 194, 74, .16);
+            color: var(--c-revisao);
+            border: 1px solid rgba(245, 194, 74, .35);
+        }
+
+        .chip-contraturno {
+            background: rgba(168, 137, 224, .16);
+            color: var(--c-contraturno);
+            border: 1px solid rgba(168, 137, 224, .35);
+        }
+
+        .chip-descanso {
+            background: rgba(122, 114, 103, .14);
+            color: var(--c-descanso);
+            border: 1px dashed rgba(122, 114, 103, .4);
+            font-weight: 700;
+        }
+
+        .today-col {
+            background: rgba(245, 166, 35, .1) !important;
+            box-shadow: inset 0 0 0 1px rgba(245, 166, 35, .4);
+        }
+
+        .schedule-table thead th.today-col {
+            color: var(--honey-light);
+            position: relative;
+        }
+
+        .today-badge {
+            display: block;
+            margin-top: 4px;
+            font-family: var(--font-body);
+            font-size: .58rem;
+            font-weight: 800;
+            letter-spacing: .08em;
+            color: var(--honey-light);
+            background: rgba(245, 166, 35, .18);
+            padding: 2px 8px;
+            border-radius: 999px;
+        }
+
+        .wrap-footer {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 30px;
+            color: var(--muted);
+            font-size: .82rem;
+            font-weight: 700;
+        }
+
+        .wrap-footer i {
+            color: var(--honey);
+        }
+
+        /* print */
+        @media print {
+            body {
+                background: #fff !important;
+                color: #111 !important;
+            }
+
+            .hex-grid,
+            .hex-deco,
+            .print-btn,
+            .brand-badge {
+                display: none !important;
+            }
+
+            .title-bar,
+            .schedule-glass,
+            .legend-item {
+                background: #fff !important;
+                border: 1px solid #ccc !important;
+                box-shadow: none !important;
+                backdrop-filter: none !important;
+            }
+
+            .title-bar h1,
+            .schedule-table thead th,
+            .schedule-table tbody th {
+                color: #111 !important;
+            }
+
+            .chip {
+                border: 1px solid #999 !important;
+                background: #f2f2f2 !important;
+            }
+        }
+
+        /* responsive */
+        @media (max-width:720px) {
+            .title-bar {
+                padding: 26px 22px;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .year-badge {
+                align-self: flex-end;
+            }
+
+            .wrap {
+                padding: 34px 16px 50px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="hex-grid"></div>
+    <div class="hex-deco hex-glow-1"></div>
+    <div class="hex-deco hex-glow-2"></div>
+
+    <div class="wrap">
+
+        <div class="brand-row">
+            <div class="brand">
+
+                <span class="brand-name">Colmeia do <strong>Saber</strong></span>
+            </div>
+            <button class="print-btn" id="printBtn"><i class="fa-solid fa-print"></i> Imprimir plano</button>
+        </div>
+
+        <div class="title-bar">
+            <div class="title-left">
+                <span class="title-eyebrow"><i class="fa-solid fa-hexagon-nodes"></i> Plano pessoal de <em>estudos</em></span>
+            </div>
+            <div class="year-badge">
+                <strong>2026</strong>
+                <span>Plano</span>
+            </div>
+        </div>
+
+        <div class="legend">
+            <span class="legend-item"><span class="legend-dot" style="background:var(--c-senai)"></span>Senai /
+                Sesi</span>
+            <span class="legend-item"><span class="legend-dot" style="background:var(--c-humanas)"></span>Humanas</span>
+            <span class="legend-item"><span class="legend-dot"
+                    style="background:var(--c-matematica)"></span>Matemática</span>
+            <span class="legend-item"><span class="legend-dot"
+                    style="background:var(--c-linguagens)"></span>Linguagens</span>
+            <span class="legend-item"><span class="legend-dot"
+                    style="background:var(--c-natureza)"></span>Natureza</span>
+            <span class="legend-item"><span class="legend-dot" style="background:var(--c-revisao)"></span>Revisão</span>
+            <span class="legend-item"><span class="legend-dot"
+                    style="background:var(--c-contraturno)"></span>Contraturno</span>
+            <span class="legend-item"><span class="legend-dot"
+                    style="background:var(--c-descanso)"></span>Descanso</span>
+        </div>
+
+        <div class="schedule-glass">
+            <table class="schedule-table" id="scheduleTable">
+                <thead>
+                    <tr>
+                        <th>Horário</th>
+                        <th>Seg<span>Segunda</span></th>
+                        <th>Ter<span>Terça</span></th>
+                        <th>Qua<span>Quarta</span></th>
+                        <th>Qui<span>Quinta</span></th>
+                        <th>Sex<span>Sexta</span></th>
+                        <th>Sáb<span>Sábado</span></th>
+                        <th>Dom<span>Domingo</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>Manhã</th>
+                        <td><span class="chip chip-senai">Senai</span></td>
+                        <td><span class="chip chip-humanas">Humanas</span></td>
+                        <td><span class="chip chip-matematica">Matemática</span></td>
+                        <td><span class="chip chip-linguagens">Linguagens</span></td>
+                        <td><span class="chip chip-natureza">Natureza</span></td>
+                        <td><span class="chip chip-revisao">Revisão</span></td>
+                        <td><span class="chip chip-descanso">Descanso</span></td>
+                    </tr>
+                    <tr>
+                        <th>Tarde</th>
+                        <td><span class="chip chip-senai">Sesi/Senai</span></td>
+                        <td><span class="chip chip-senai">Sesi/Senai</span></td>
+                        <td><span class="chip chip-senai">Sesi/Senai</span></td>
+                        <td><span class="chip chip-senai">Sesi/Senai</span></td>
+                        <td><span class="chip chip-senai">Senai</span></td>
+                        <td><span class="chip chip-descanso">Descanso</span></td>
+                        <td><span class="chip chip-descanso">Descanso</span></td>
+                    </tr>
+                    <tr>
+                        <th>Noite</th>
+                        <td><span class="chip chip-revisao">Revisão</span></td>
+                        <td><span class="chip chip-contraturno">Contraturno</span></td>
+                        <td><span class="chip chip-contraturno">Contraturno</span></td>
+                        <td><span class="chip chip-contraturno">Contraturno</span></td>
+                        <td><span class="chip chip-revisao">Revisão</span></td>
+                        <td><span class="chip chip-revisao">Revisão</span></td>
+                        <td><span class="chip chip-descanso">Descanso</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p class="wrap-footer"><i class="fa-solid fa-location-dot"></i> A coluna de hoje é destacada automaticamente</p>
+
+    </div>
+
+    <script>
+        (function () {
+            // destaca a coluna do dia atual (0=Dom...6=Sáb do JS -> mapeado para a ordem Seg..Dom da tabela)
+            const jsDayToColIndex = [6, 0, 1, 2, 3, 4, 5];
+            const colIndex = jsDayToColIndex[new Date().getDay()];
+
+            document.querySelectorAll('#scheduleTable tr').forEach((row, ri) => {
+                const cell = row.children[colIndex + 1];
+                if (!cell) return;
+                cell.classList.add('today-col');
+                if (ri === 0) {
+                    const badge = document.createElement('span');
+                    badge.className = 'today-badge';
+                    badge.textContent = 'HOJE';
+                    cell.appendChild(badge);
+                }
+            });
+
+            document.getElementById('printBtn').addEventListener('click', () => window.print());
+        })();
+    </script>
+
+    <script src="protect.js"></script>
+
+</body>
+
+</html>

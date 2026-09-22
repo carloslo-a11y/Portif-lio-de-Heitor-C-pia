@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Natureza</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,800&family=Work+Sans:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&family=Work+Sans:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap');
+
+        :root {
+            --hive-black: #170F09;
+            --hive-brown: #241708;
+            --hive-brown-2: #2E1D0C;
+            --wax-cream: #FBF0D6;
+            --honey-gold: #E6A233;
+            --honey-bright: #FFC93C;
+            --honey-deep: #B9741F;
+            --comb-line: #5A3A16;
+            --text-light: #F6E7C6;
+            --text-muted: #C9AE83;
+            --danger: #B3542E;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background-color: var(--hive-black);
+            background-image:
+                linear-gradient(30deg, rgba(230, 162, 51, .055) 12%, transparent 12.5%, transparent 87%, rgba(230, 162, 51, .055) 87.5%, rgba(230, 162, 51, .055)),
+                linear-gradient(150deg, rgba(230, 162, 51, .055) 12%, transparent 12.5%, transparent 87%, rgba(230, 162, 51, .055) 87.5%, rgba(230, 162, 51, .055)),
+                linear-gradient(30deg, rgba(230, 162, 51, .055) 12%, transparent 12.5%, transparent 87%, rgba(230, 162, 51, .055) 87.5%, rgba(230, 162, 51, .055)),
+                linear-gradient(150deg, rgba(230, 162, 51, .055) 12%, transparent 12.5%, transparent 87%, rgba(230, 162, 51, .055) 87.5%, rgba(230, 162, 51, .055)),
+                linear-gradient(60deg, rgba(230, 162, 51, .04) 25%, transparent 25.5%, transparent 75%, rgba(230, 162, 51, .04) 75%, rgba(230, 162, 51, .04)),
+                linear-gradient(60deg, rgba(230, 162, 51, .04) 25%, transparent 25.5%, transparent 75%, rgba(230, 162, 51, .04) 75%, rgba(230, 162, 51, .04));
+            background-size: 56px 98px;
+            background-position: 0 0, 0 0, 28px 49px, 28px 49px, 0 0, 28px 49px;
+            color: var(--text-light);
+            font-family: 'Work Sans', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* ---------- background glow blobs, honey-toned ---------- */
+        .bg-glow-container {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(90px);
+            opacity: .35;
+            mix-blend-mode: screen;
+        }
+
+        .blob-1 {
+            width: 520px;
+            height: 520px;
+            top: -10%;
+            left: -8%;
+            background: radial-gradient(circle at 30% 30%, var(--honey-bright), transparent 70%);
+            animation: drift1 22s ease-in-out infinite;
+        }
+
+        .blob-2 {
+            width: 460px;
+            height: 460px;
+            bottom: -12%;
+            right: -6%;
+            background: radial-gradient(circle at 60% 40%, var(--honey-deep), transparent 70%);
+            animation: drift2 26s ease-in-out infinite;
+        }
+
+        .blob-3 {
+            width: 360px;
+            height: 360px;
+            top: 40%;
+            left: 45%;
+            background: radial-gradient(circle at 50% 50%, var(--honey-gold), transparent 70%);
+            opacity: .22;
+            animation: drift3 30s ease-in-out infinite;
+        }
+
+        @keyframes drift1 {
+
+            0%,
+            100% {
+                transform: translate(0, 0);
+            }
+
+            50% {
+                transform: translate(40px, 30px);
+            }
+        }
+
+        @keyframes drift2 {
+
+            0%,
+            100% {
+                transform: translate(0, 0);
+            }
+
+            50% {
+                transform: translate(-30px, -40px);
+            }
+        }
+
+        @keyframes drift3 {
+
+            0%,
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+            }
+
+            50% {
+                transform: translate(-50%, -50%) scale(1.15);
+            }
+        }
+
+        /* ---------- generated header + nav (added by atividades.js) ---------- */
+        .hive-header {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 56px 24px 20px;
+        }
+
+        .hive-header .eyebrow {
+            font-family: 'Space Mono', monospace;
+            font-size: 11.5px;
+            letter-spacing: .24em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 14px;
+        }
+
+        .hive-header .eyebrow span {
+            color: var(--honey-bright);
+        }
+
+        .hive-header h2 {
+            font-family: 'Fraunces', serif;
+            font-weight: 800;
+            font-size: clamp(2.2rem, 5vw, 3.6rem);
+            margin: 0;
+            line-height: 1.02;
+            background: linear-gradient(180deg, var(--honey-bright) 0%, var(--honey-gold) 55%, var(--honey-deep) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hive-nav {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            padding: 14px 16px;
+            background: rgba(23, 15, 9, .86);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid rgba(230, 162, 51, .16);
+        }
+
+        .hive-nav a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            font-family: 'Space Mono', monospace;
+            font-size: 12.5px;
+            letter-spacing: .05em;
+            color: var(--text-light);
+            padding: 9px 16px 9px 12px;
+            background: var(--hive-brown-2);
+            border: 1px solid var(--comb-line);
+            clip-path: polygon(10% 0%, 90% 0%, 100% 50%, 90% 100%, 10% 100%, 0% 50%);
+            transition: background .18s ease, transform .18s ease, color .18s ease;
+        }
+
+        .hive-nav a:hover,
+        .hive-nav a:focus-visible {
+            background: var(--honey-gold);
+            color: var(--hive-black);
+            transform: translateY(-2px);
+            outline: none;
+        }
+
+        .hive-nav a .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--honey-bright);
+        }
+
+        /* ---------- layout wrappers already in the HTML ---------- */
+        .atividades {
+            position: relative;
+            z-index: 1;
+            padding: 20px 0 60px;
+        }
+
+        .center {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .eixo-container {
+            margin-top: 56px;
+            opacity: 0;
+            transform: translateY(18px);
+            transition: opacity .6s ease, transform .6s ease;
+        }
+
+        .eixo-container.in-view {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .eixo-container h1 {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-family: 'Fraunces', serif;
+            font-size: clamp(1.4rem, 3vw, 2rem);
+            font-weight: 700;
+            letter-spacing: -.01em;
+            margin: 0 0 26px;
+        }
+
+        .eixo-container h1::after {
+            content: '';
+            flex: 1 1 auto;
+            height: 1px;
+            background: repeating-linear-gradient(90deg, var(--comb-line) 0 6px, transparent 6px 12px);
+        }
+
+        .eixo-badge {
+            flex: 0 0 auto;
+            width: 52px;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+            background: linear-gradient(160deg, var(--honey-bright), var(--honey-deep));
+            color: var(--hive-black);
+            font-family: 'Space Mono', monospace;
+            font-weight: 700;
+            font-size: 17px;
+        }
+
+        /* ---------- image gallery: hex cells + waypoint dates ---------- */
+        .image-gallery {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 6px 4px;
+            row-gap: 34px;
+        }
+
+        .image-gallery img {
+            width: 250px;
+            height: 250px;
+            aspect-ratio: 1/.92;
+            box-shadow: 0 10px 22px rgba(0, 0, 0, .35);
+            transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
+        }
+
+        .image-gallery img:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 30px rgba(0, 0, 0, .42);
+            filter: brightness(1.05);
+        }
+
+        /* date markers between images — restructured by atividades.js */
+        .image-gallery p {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 0 2px;
+            font-family: 'Space Mono', monospace;
+            font-size: 12px;
+            color: var(--text-muted);
+            white-space: nowrap;
+        }
+
+        .image-gallery p .line {
+            width: 22px;
+            height: 0;
+            border-top: 2px dashed var(--comb-line);
+        }
+
+        .image-gallery p .bee {
+            font-size: 14px;
+            display: inline-block;
+            animation: fly 2.6s ease-in-out infinite;
+        }
+
+        @keyframes fly {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-4px) rotate(6deg);
+            }
+        }
+
+        .image-gallery p .date-text {
+            color: var(--honey-gold);
+        }
+
+       
+        .hive-lightbox {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(10, 7, 4, .86);
+            backdrop-filter: blur(4px);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .2s ease;
+        }
+
+        .hive-lightbox.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .hive-lightbox img {
+            max-width: 88vw;
+            max-height: 82vh;
+            border-radius: 6px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, .6);
+        }
+
+        .hive-lightbox .close-btn {
+            position: absolute;
+            top: 26px;
+            right: 28px;
+            width: 44px;
+            height: 44px;
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+            background: var(--honey-gold);
+            color: var(--hive-black);
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hive-lightbox .close-btn:hover {
+            background: var(--honey-bright);
+        }
+
+        footer.hive-footer {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 50px 24px 40px;
+            color: var(--text-muted);
+            font-family: 'Space Mono', monospace;
+            font-size: 11.5px;
+            letter-spacing: .04em;
+        }
+
+        @media (max-width:640px) {
+            .image-gallery img {
+                width: 130px;
+            }
+
+            .hive-header {
+                padding: 44px 18px 16px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation: none !important;
+                transition: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="bg-glow-container">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <div class="atividades">
+        <div class="center">
+
+            <div class="eixo-container">
+                <h1>Eixo 1</h1>
+                <div class="image-gallery"></div>
+            </div>
+
+            <div class="eixo-container">
+                <h1>Eixo 2</h1>
+                <div class="image-gallery"></div>
+            </div>
+
+            <div class="eixo-container">
+                <h1>Eixo 3</h1>
+                <div class="image-gallery"></div>
+            </div>
+
+            <div class="eixo-container">
+                <h1>Eixo 4</h1>
+                <div class="image-gallery"></div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="atividades.js"></script>
+    <script src="protect.js"></script>
+</body>
+
+</html>

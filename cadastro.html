@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro · Colmeia de Atividades</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+
+<body>
+    <div class="bg-glow-container">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <main class="login-wrap">
+        <div class="login-card">
+            <div class="hex-mark">🐝</div>
+            <div class="eyebrow">Colmeia de Atividades</div>
+            <h1>Crie uma conta</h1>
+            <p class="subtitle">Cadastre-se para cessar meus trabalhos.</p>
+
+            <form id="cadastro-form" novalidate>
+                <label class="field">
+                    <span>Nome</span>
+                    <input type="text" id="nome" name="nome" placeholder="Seu nome" autocomplete="name" required>
+                </label>
+
+                <label class="field">
+                    <span>E-mail</span>
+                    <input type="email" id="email" name="email" placeholder="seuemail@senai" autocomplete="email"
+                        required>
+                </label>
+
+                <label class="field">
+                    <span>Senha</span>
+                    <input type="password" id="password" name="password" placeholder="••••••••"
+                        autocomplete="new-password" required>
+                </label>
+
+                <label class="field">
+                    <span>Tipo de conta</span>
+                    <select id="tipo" name="tipo">
+                        <option value="aluno">Aluno</option>
+                        <option value="professor">Professor</option>
+                    </select>
+                </label>
+
+                <p id="error-msg" class="error-msg" hidden></p>
+                <p id="success-msg" class="success-msg" hidden></p>
+
+                <button type="submit" id="cadastro-btn" class="access-btn">Cadastrar</button>
+            </form>
+
+            <p class="toggle-text">Já tem uma conta? <a href="login.html">Entrar</a></p>
+        </div>
+    </main>
+
+    <!-- SDK do Supabase e inicialização -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabaseClient.js"></script>
+    <script src="cadastro.js"></script>
+</body>
+
+</html>

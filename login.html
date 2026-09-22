@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrar · Colmeia de Atividades</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+
+<body>
+    <div class="bg-glow-container">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <main class="login-wrap">
+        <div class="login-card">
+            <div class="hex-mark">🐝</div>
+            <div class="eyebrow">Colmeia de Atividades</div>
+            <h1>Bem-vindo de volta</h1>
+            <p class="subtitle">Entre para acessar meus favos de estudo.</p>
+
+            <form id="login-form" novalidate>
+                <label class="field">
+                    <span>E-mail</span>
+                    <input type="text" id="email" name="email" placeholder="seuemail@senai" autocomplete="username"
+                        required>
+                </label>
+
+                <label class="field">
+                    <span>Senha</span>
+                    <input type="password" id="password" name="password" placeholder="••••••••"
+                        autocomplete="current-password" required>
+                </label>
+
+                <p id="error-msg" class="error-msg" hidden></p>
+
+                <button type="submit" id="access-btn" class="access-btn">Acessar</button>
+            </form>
+
+            <p class="toggle-text">Não tem conta? <a href="cadastro.html">Cadastre-se</a></p>
+        </div>
+    </main>
+
+    <!-- SDK do Supabase e inicialização -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabaseClient.js"></script>
+    <script src="login.js"></script>
+</body>
+
+</html>

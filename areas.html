@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Colmeia do Saber — Áreas do Conhecimento</title>
+<meta name="description" content="Explore as áreas do conhecimento — Natureza, Humanas, Matemática, Linguagens e Senai — em cards no formato de abelha.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐝</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root{
+  --honey:#F5A623;
+  --honey-light:#FFC85C;
+  --honey-dark:#C97B0C;
+  --hive:#3E2A1E;
+  --hive-2:#2B1B12;
+  --cream:#FFF8E9;
+  --cream-2:#FFEFD1;
+  --ink:#2B2118;
+  --gray:#8A7A68;
+  --white:#FFFFFF;
+
+  --c-natureza:#5E9E3F;
+  --c-humanas:#E0672B;
+  --c-matematica:#3E7FBF;
+  --c-linguagens:#C4479C;
+  --c-senai:#4C5B70;
+
+  --font-display:'Baloo 2', cursive;
+  --font-body:'Nunito', sans-serif;
+  --radius:22px;
+  --shadow:0 18px 40px rgba(43,33,24,.14);
+  --shadow-lg:0 28px 60px rgba(43,33,24,.22);
+  --bounce:cubic-bezier(.34,1.56,.64,1);
+  --ease:cubic-bezier(.4,0,.2,1);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+body{
+  font-family:var(--font-body);
+  background:var(--cream);
+  color:var(--ink);
+  overflow-x:hidden;
+  min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3{font-family:var(--font-display);line-height:1.15;}
+img{max-width:100%;display:block;}
+a{text-decoration:none;color:inherit;}
+button{cursor:pointer;font-family:inherit;}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);}
+a:focus-visible,button:focus-visible{outline:3px solid var(--honey-dark);outline-offset:3px;border-radius:8px;}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.001ms !important;transition-duration:.001ms !important;}}
+
+/* decorative hex background */
+.hex-deco{position:fixed;clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);pointer-events:none;z-index:0;}
+.hex-1{width:340px;height:390px;background:var(--honey);opacity:.10;top:-90px;left:-120px;}
+.hex-2{width:220px;height:250px;background:var(--hive);opacity:.06;bottom:8%;left:6%;}
+.hex-3{width:280px;height:320px;background:var(--honey-dark);opacity:.10;bottom:-100px;right:-80px;}
+.hex-4{width:150px;height:170px;background:var(--c-linguagens);opacity:.08;top:14%;right:8%;}
+
+/* header */
+.site-header{position:relative;z-index:5;padding:26px 5vw 0;display:flex;align-items:center;justify-content:space-between;}
+.brand{display:flex;align-items:center;gap:12px;}
+.brand-badge{
+  width:46px;height:46px;border-radius:50%;background:linear-gradient(140deg,var(--honey-light),var(--honey-dark));
+  display:flex;align-items:center;justify-content:center;font-size:1.35rem;box-shadow:var(--shadow);transform:rotate(-8deg);
+}
+.brand-name{font-family:var(--font-display);font-weight:700;font-size:1.3rem;color:var(--hive);}
+.brand-name span{color:var(--honey-dark);}
+.brand-tag{font-size:.72rem;color:var(--gray);font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-left:58px;margin-top:-6px;}
+
+/* layout */
+.page-layout{
+  position:relative;z-index:2;
+  max-width:1320px;margin:0 auto;
+  display:grid;grid-template-columns:1.05fr .95fr;gap:24px;align-items:center;
+  padding:26px 5vw 40px;
+  min-height:calc(100vh - 90px);
+}
+
+/* left: knowledge section */
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;font-weight:800;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--honey-dark);background:rgba(245,166,35,.14);padding:8px 18px;border-radius:999px;margin-bottom:16px;
+}
+.knowledge-section h1{font-size:clamp(2rem,4vw,2.9rem);color:var(--hive);margin-bottom:14px;}
+.knowledge-section h1 em{font-style:normal;color:var(--honey-dark);}
+.knowledge-section > p{color:var(--gray);font-size:1.02rem;max-width:460px;margin-bottom:8px;font-weight:600;}
+
+.bee-carousel{display:flex;align-items:center;gap:14px;margin-top:18px;}
+.bee-nav{
+  flex-shrink:0;width:52px;height:52px;border-radius:50%;background:var(--white);box-shadow:var(--shadow);
+  display:flex;align-items:center;justify-content:center;color:var(--hive);font-size:1.1rem;
+  transition:transform .3s var(--bounce),background .25s var(--ease),color .25s var(--ease);
+}
+.bee-nav:hover{background:var(--honey);color:var(--white);transform:scale(1.08);}
+.bee-nav:active{transform:scale(.94);}
+
+.bee-stage{position:relative;flex:1;height:392px;}
+.bee-card{
+  position:absolute;inset:0;margin:auto;width:290px;
+  display:flex;flex-direction:column;align-items:center;
+  opacity:0;transform:scale(.82) translateY(18px);
+  pointer-events:none;visibility:hidden;
+  transition:opacity .45s var(--ease),transform .5s var(--bounce),visibility .45s;
+}
+.bee-card.active{opacity:1;transform:scale(1) translateY(0);pointer-events:auto;visibility:visible;}
+
+.bee-wing{position:absolute;top:36px;width:88px;height:118px;background:rgba(255,255,255,.65);border:1px solid rgba(255,255,255,.9);box-shadow:0 6px 16px rgba(43,33,24,.1);}
+.bee-wing-left{left:-38px;border-radius:0 100% 0 100%;transform-origin:bottom right;transform:rotate(-8deg);}
+.bee-wing-right{right:-38px;border-radius:100% 0 100% 0;transform-origin:bottom left;transform:rotate(8deg) scaleX(-1);}
+.bee-card.active .bee-wing-left{animation:flutter-l 2.4s ease-in-out infinite;}
+.bee-card.active .bee-wing-right{animation:flutter-r 2.4s ease-in-out infinite;}
+@keyframes flutter-l{0%,100%{transform:rotate(-8deg);}50%{transform:rotate(-18deg);}}
+@keyframes flutter-r{0%,100%{transform:rotate(8deg) scaleX(-1);}50%{transform:rotate(18deg) scaleX(-1);}}
+
+.antenna{position:absolute;top:-2px;width:3px;height:34px;background:var(--hive);border-radius:2px;z-index:3;}
+.antenna::after{content:"";position:absolute;top:-6px;left:50%;transform:translateX(-50%);width:9px;height:9px;background:var(--hive);border-radius:50%;}
+.antenna-l{left:98px;transform:rotate(-22deg);transform-origin:bottom;}
+.antenna-r{right:98px;transform:rotate(22deg);transform-origin:bottom;}
+
+.bee-body{
+  position:relative;width:250px;padding:13px;border-radius:50%;
+  background:repeating-linear-gradient(180deg,var(--hive) 0 15px,var(--honey) 15px 30px);
+  box-shadow:var(--shadow-lg);
+  aspect-ratio:250/290;
+  animation:hover-y 4s ease-in-out infinite;
+}
+@keyframes hover-y{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+.bee-inner{
+  width:100%;height:100%;border-radius:50%;background:var(--white);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+  padding:26px 22px;
+}
+.bee-icon{
+  width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  color:var(--white);font-size:1.5rem;margin-bottom:14px;box-shadow:0 10px 20px rgba(43,33,24,.18);
+}
+.bee-inner h3{font-size:1.28rem;color:var(--hive);margin-bottom:8px;}
+.bee-inner p{font-size:.82rem;color:var(--gray);font-weight:600;line-height:1.4;margin-bottom:14px;}
+.bee-cta{display:inline-flex;align-items:center;gap:7px;font-weight:800;font-size:.82rem;letter-spacing:.02em;}
+.bee-cta i{font-size:.72rem;transition:transform .3s var(--ease);}
+.bee-card:hover .bee-cta i{transform:translateX(4px);}
+
+.bee-dots{display:flex;gap:10px;margin-top:22px;align-items:center;}
+.bee-dot{
+  width:16px;height:16px;background:var(--cream-2);
+  clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
+  transition:transform .3s var(--bounce),background .3s var(--ease);
+}
+.bee-dot.active{background:var(--honey-dark);transform:scale(1.3);}
+.bee-progress{margin-left:10px;font-weight:800;font-size:.82rem;color:var(--gray);}
+.bee-progress strong{color:var(--hive);}
+
+.swipe-hint{display:none;font-size:.78rem;color:var(--gray);font-weight:700;margin-top:14px;align-items:center;gap:8px;}
+
+/* right: beekeeper visual */
+.beekeeper-section{position:relative;display:flex;align-items:flex-end;justify-content:center;height:100%;min-height:520px;}
+.honey-blob{
+  position:absolute;width:88%;height:82%;bottom:0;left:50%;transform:translateX(-50%);
+  background:linear-gradient(160deg,var(--honey-light) 0%,var(--honey) 55%,var(--honey-dark) 100%);
+  border-radius:50% 50% 42% 42% / 60% 60% 40% 40%;
+  box-shadow:inset 0 -30px 60px rgba(43,33,24,.18);
+}
+.honey-blob::before{
+  content:"";position:absolute;inset:14px;border-radius:inherit;border:2px dashed rgba(255,255,255,.4);
+}
+.beekeeper-img{
+  position:relative;z-index:2;max-height:78vh;height:560px;width:auto;object-fit:contain;
+  filter:drop-shadow(0 30px 26px rgba(43,33,24,.32));
+  animation:float-slow 6s ease-in-out infinite;
+}
+@keyframes float-slow{0%,100%{transform:translateY(0);}50%{transform:translateY(-14px);}}
+.buzz-bee{position:absolute;font-size:1.4rem;z-index:3;filter:drop-shadow(0 6px 8px rgba(43,33,24,.25));}
+.buzz-1{top:8%;left:6%;animation:buzz 5s ease-in-out infinite;}
+.buzz-2{top:20%;right:4%;animation:buzz 4.2s ease-in-out infinite 1s;}
+.buzz-3{bottom:22%;left:0%;animation:buzz 4.8s ease-in-out infinite .5s;}
+@keyframes buzz{0%,100%{transform:translate(0,0) rotate(0deg);}25%{transform:translate(10px,-14px) rotate(10deg);}50%{transform:translate(-6px,-4px) rotate(-8deg);}75%{transform:translate(8px,6px) rotate(6deg);}}
+
+.floating-tag{
+  position:absolute;z-index:3;background:var(--white);border-radius:999px;box-shadow:var(--shadow);
+  padding:11px 18px 11px 11px;display:flex;align-items:center;gap:10px;
+}
+.floating-tag i{width:32px;height:32px;border-radius:50%;background:var(--honey);color:var(--white);display:flex;align-items:center;justify-content:center;font-size:.9rem;}
+.floating-tag strong{display:block;font-size:.82rem;color:var(--hive);}
+.floating-tag span{display:block;font-size:.66rem;color:var(--gray);font-weight:700;}
+.tag-hives{top:10%;left:-4%;}
+.tag-quality{bottom:14%;right:-6%;}
+
+footer{position:relative;z-index:2;text-align:center;padding:20px 20px 30px;color:var(--gray);font-size:.8rem;font-weight:700;}
+
+/* responsive */
+@media (max-width:980px){
+  .page-layout{grid-template-columns:1fr;padding-top:10px;}
+  .beekeeper-section{order:-1;min-height:340px;}
+  .beekeeper-img{height:340px;}
+  .brand-tag{display:none;}
+  .knowledge-section{text-align:center;}
+  .knowledge-section > p{margin-left:auto;margin-right:auto;}
+  .bee-dots{justify-content:center;}
+  .floating-tag,.buzz-bee{display:none;}
+}
+@media (max-width:520px){
+  .bee-card{width:230px;}
+  .bee-body{width:200px;}
+  .bee-wing{width:64px;height:88px;}
+  .site-header{padding:20px 5vw 0;}
+  .beekeeper-img{height:280px;}
+}
+</style>
+</head>
+<body>
+
+<div class="hex-deco hex-1"></div>
+<div class="hex-deco hex-2"></div>
+<div class="hex-deco hex-3"></div>
+<div class="hex-deco hex-4"></div>
+
+<header class="site-header">
+  <div class="brand">
+    <span class="brand-badge"></span>
+    <span class="brand-name">Colmeia do <span>Saber</span></span>
+  </div>
+</header>
+
+<main class="page-layout">
+
+  <section class="knowledge-section">
+    <span class="eyebrow"><i class="fa-solid fa-hexagon-nodes"></i> Explore por área</span>
+    <h1>Áreas do <em>Conhecimento</em></h1>
+    <p>Cada abelha representa uma área. Use as setas para navegar pela colmeia e clique para acessar.</p>
+
+    <div class="bee-carousel">
+      <button class="bee-nav prev" id="prevBtn" aria-label="Área anterior">
+        <i class="fa-solid fa-chevron-left"></i>
+      </button>
+
+      <div class="bee-stage" id="beeStage">
+
+        <a href="./natureza.html" class="bee-card active" data-index="0" data-color="natureza" aria-label="Área: Natureza">
+          <span class="bee-wing bee-wing-left"></span>
+          <span class="bee-wing bee-wing-right"></span>
+          <span class="antenna antenna-l"></span>
+          <span class="antenna antenna-r"></span>
+          <div class="bee-body">
+            <div class="bee-inner">
+              <div class="bee-icon" style="background:var(--c-natureza)"><i class="fa-solid fa-leaf"></i></div>
+              <h3>Natureza</h3>
+              <p>Ciências da Natureza e suas Tecnologias</p>
+              <span class="bee-cta" style="color:var(--c-natureza)">Acessar <i class="fa-solid fa-arrow-right"></i></span>
+            </div>
+          </div>
+        </a>
+
+        <a href="./humanas.html" class="bee-card" data-index="1" data-color="humanas" aria-label="Área: Humanas">
+          <span class="bee-wing bee-wing-left"></span>
+          <span class="bee-wing bee-wing-right"></span>
+          <span class="antenna antenna-l"></span>
+          <span class="antenna antenna-r"></span>
+          <div class="bee-body">
+            <div class="bee-inner">
+              <div class="bee-icon" style="background:var(--c-humanas)"><i class="fa-solid fa-landmark"></i></div>
+              <h3>Humanas</h3>
+              <p>Ciências Humanas e Sociais Aplicadas</p>
+              <span class="bee-cta" style="color:var(--c-humanas)">Acessar <i class="fa-solid fa-arrow-right"></i></span>
+            </div>
+          </div>
+        </a>
+
+        <a href="./matematica.html" class="bee-card" data-index="2" data-color="matematica" aria-label="Área: Matemática">
+          <span class="bee-wing bee-wing-left"></span>
+          <span class="bee-wing bee-wing-right"></span>
+          <span class="antenna antenna-l"></span>
+          <span class="antenna antenna-r"></span>
+          <div class="bee-body">
+            <div class="bee-inner">
+              <div class="bee-icon" style="background:var(--c-matematica)"><i class="fa-solid fa-square-root-variable"></i></div>
+              <h3>Matemática</h3>
+              <p>Matemática e suas Tecnologias</p>
+              <span class="bee-cta" style="color:var(--c-matematica)">Acessar <i class="fa-solid fa-arrow-right"></i></span>
+            </div>
+          </div>
+        </a>
+
+        <a href="linguagens.html" class="bee-card" data-index="3" data-color="linguagens" aria-label="Área: Linguagens">
+          <span class="bee-wing bee-wing-left"></span>
+          <span class="bee-wing bee-wing-right"></span>
+          <span class="antenna antenna-l"></span>
+          <span class="antenna antenna-r"></span>
+          <div class="bee-body">
+            <div class="bee-inner">
+              <div class="bee-icon" style="background:var(--c-linguagens)"><i class="fa-solid fa-comments"></i></div>
+              <h3>Linguagens</h3>
+              <p>Linguagens, Códigos e suas Tecnologias</p>
+              <span class="bee-cta" style="color:var(--c-linguagens)">Acessar <i class="fa-solid fa-arrow-right"></i></span>
+            </div>
+          </div>
+        </a>
+
+        <a href="./senai.html" class="bee-card" data-index="4" data-color="senai" aria-label="Área: Senai">
+          <span class="bee-wing bee-wing-left"></span>
+          <span class="bee-wing bee-wing-right"></span>
+          <span class="antenna antenna-l"></span>
+          <span class="antenna antenna-r"></span>
+          <div class="bee-body">
+            <div class="bee-inner">
+              <div class="bee-icon" style="background:var(--c-senai)"><i class="fa-solid fa-industry"></i></div>
+              <h3>Senai</h3>
+              <p>Educação Profissional e Tecnológica</p>
+              <span class="bee-cta" style="color:var(--c-senai)">Acessar <i class="fa-solid fa-arrow-right"></i></span>
+            </div>
+          </div>
+        </a>
+
+      </div>
+
+      <button class="bee-nav next" id="nextBtn" aria-label="Próxima área">
+        <i class="fa-solid fa-chevron-right"></i>
+      </button>
+    </div>
+
+    <div class="bee-dots" id="beeDots">
+      <span class="bee-dot active" data-index="0"></span>
+      <span class="bee-dot" data-index="1"></span>
+      <span class="bee-dot" data-index="2"></span>
+      <span class="bee-dot" data-index="3"></span>
+      <span class="bee-dot" data-index="4"></span>
+      <span class="bee-progress"><strong id="beeCurrent">1</strong>/5</span>
+    </div>
+
+    <p class="swipe-hint"><i class="fa-solid fa-arrows-left-right"></i> Use as setas do teclado para navegar</p>
+  </section>
+
+  <section class="beekeeper-section">
+    <div class="honey-blob"></div>
+    
+    <img src="./img/apicultor.png" alt="Apicultor cuidando de uma colmeia, retirando um quadro com abelhas" class="beekeeper-img">
+    <span class="buzz-bee buzz-1">🐝</span>
+    <span class="buzz-bee buzz-2">🐝</span>
+    <span class="buzz-bee buzz-3">🐝</span>
+    <div class="floating-tag tag-hives">
+      <i class="fa-solid fa-hexagon-nodes"></i>
+      <div><strong>5 áreas</strong><span>do conhecimento</span></div>
+    </div>
+    <div class="floating-tag tag-quality">
+      <i class="fa-solid fa-graduation-cap"></i>
+      <div><strong>Aprenda</strong><span>explorando a colmeia</span></div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+(function(){
+  const cards = Array.from(document.querySelectorAll('.bee-card'));
+  const dots = Array.from(document.querySelectorAll('.bee-dot'));
+  const currentEl = document.getElementById('beeCurrent');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  let current = 0;
+
+  function showCard(index){
+    current = (index + cards.length) % cards.length;
+    cards.forEach((card, i) => {
+      const active = i === current;
+      card.classList.toggle('active', active);
+      card.setAttribute('tabindex', active ? '0' : '-1');
+    });
+    dots.forEach((dot, i) => dot.classList.toggle('active', i === current));
+    currentEl.textContent = current + 1;
+  }
+
+  prevBtn.addEventListener('click', () => showCard(current - 1));
+  nextBtn.addEventListener('click', () => showCard(current + 1));
+  dots.forEach(dot => {
+    dot.addEventListener('click', () => showCard(parseInt(dot.dataset.index, 10)));
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if(e.key === 'ArrowLeft') showCard(current - 1);
+    if(e.key === 'ArrowRight') showCard(current + 1);
+  });
+
+
+  const stage = document.getElementById('beeStage');
+  let startX = null;
+  stage.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; }, {passive:true});
+  stage.addEventListener('touchend', (e) => {
+    if(startX === null) return;
+    const diff = e.changedTouches[0].clientX - startX;
+    if(diff > 50) showCard(current - 1);
+    if(diff < -50) showCard(current + 1);
+    startX = null;
+  }, {passive:true});
+
+  showCard(0);
+})();
+</script>
+
+<script src="protect.js"></script>
+
+</body>
+</html>
