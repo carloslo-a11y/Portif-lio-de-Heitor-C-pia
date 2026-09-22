@@ -157,6 +157,12 @@
             nav.className = 'hive-nav';
             nav.innerHTML = navLinks.join('');
             atividades.parentNode.insertBefore(nav, atividades);
+
+            const home = document.createElement('a');
+            home.className = 'home-fab';
+            home.href = './index.html';
+            home.textContent = '← Início';
+            document.body.appendChild(home);
         }
 
         function buildForm() {
@@ -461,6 +467,14 @@
                 'box-shadow:0 12px 30px rgba(0,0,0,.4)}',
                 '.hive-toast.show{opacity:1;transform:translate(-50%,0)}',
                 '.image-gallery{column-gap:28px !important;row-gap:46px !important}',
+                '.home-fab{position:fixed;bottom:calc(1.1rem + env(safe-area-inset-bottom));left:1.1rem;' +
+                'z-index:60;display:inline-flex;align-items:center;gap:8px;' +
+                'background:var(--hive-brown-2);border:1px solid var(--comb-line);color:var(--honey-bright);' +
+                'font-family:"Space Mono",monospace;font-weight:700;font-size:11.5px;letter-spacing:.04em;' +
+                'padding:11px 16px;border-radius:999px;text-decoration:none;' +
+                'box-shadow:0 10px 26px rgba(0,0,0,.35);' +
+                'transition:background .18s ease,transform .18s ease}',
+                '.home-fab:hover{background:var(--honey-gold);color:var(--hive-black);transform:translateY(-2px)}',
                 '@media(max-width:640px){.act-item{width:130px}' +
                 '.act-frame{width:130px;padding:8px}' +
                 '.act-item .act-name{width:130px;font-size:11.5px}' +

@@ -464,6 +464,35 @@
             transform: translateY(0);
         }
 
+        /* floating home button */
+        .home-fab {
+            position: fixed;
+            bottom: calc(1.1rem + env(safe-area-inset-bottom));
+            left: 1.1rem;
+            z-index: 60;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--hive-brown-2);
+            border: 1px solid var(--comb-line);
+            color: var(--honey-bright);
+            font-family: 'Space Mono', monospace;
+            font-weight: 700;
+            font-size: 11.5px;
+            letter-spacing: .04em;
+            padding: 11px 16px;
+            border-radius: 999px;
+            text-decoration: none;
+            box-shadow: 0 10px 26px rgba(0, 0, 0, .35);
+            transition: background .18s ease, transform .18s ease;
+        }
+
+        .home-fab:hover {
+            background: var(--honey-gold);
+            color: var(--hive-black);
+            transform: translateY(-2px);
+        }
+
         footer.hive-footer {
             position: relative;
             z-index: 1;
@@ -592,9 +621,11 @@
 
     </div>
 
-    <div class="save-toast" id="save-toast">✓ Salvo</div>
+<div class="save-toast" id="save-toast">✓ Salvo</div>
 
-    <script src="anexos.js"></script>
+<a class="home-fab" href="./index.html">← Início</a>
+
+<script src="anexos.js"></script>
     <script src="protect.js"></script>
 </body>
 

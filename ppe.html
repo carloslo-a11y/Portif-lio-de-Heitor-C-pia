@@ -512,6 +512,33 @@
             color: var(--honey);
         }
 
+        /* floating home button */
+        .home-fab {
+            position: fixed;
+            bottom: calc(1.1rem + env(safe-area-inset-bottom));
+            left: 1.1rem;
+            z-index: 60;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+            color: var(--honey-light);
+            font-family: var(--font-body);
+            font-weight: 800;
+            font-size: .8rem;
+            padding: 11px 18px;
+            border-radius: 999px;
+            text-decoration: none;
+            transition: transform .25s var(--bounce), background .2s var(--ease);
+        }
+
+        .home-fab:hover {
+            background: rgba(245, 166, 35, .16);
+            transform: translateY(-2px);
+        }
+
         /* print */
         @media print {
             body {
@@ -533,6 +560,10 @@
                 border: 1px solid #ccc !important;
                 box-shadow: none !important;
                 backdrop-filter: none !important;
+            }
+
+            .home-fab {
+                display: none !important;
             }
 
             .title-bar h1,
@@ -661,6 +692,8 @@
         <p class="wrap-footer"><i class="fa-solid fa-location-dot"></i> A coluna de hoje é destacada automaticamente</p>
 
     </div>
+
+    <a class="home-fab" href="./index.html"><i class="fa-solid fa-house"></i> Início</a>
 
     <script>
         (function () {
