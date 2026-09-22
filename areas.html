@@ -99,7 +99,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--honey-dark);outline
 .bee-nav:hover{background:var(--honey);color:var(--white);transform:scale(1.08);}
 .bee-nav:active{transform:scale(.94);}
 
-.bee-stage{position:relative;flex:1;height:392px;}
+.bee-stage{position:relative;flex:1;min-width:0;height:392px;}
 .bee-card{
   position:absolute;inset:0;margin:auto;width:290px;
   display:flex;flex-direction:column;align-items:center;
@@ -219,11 +219,24 @@ footer{position:relative;z-index:2;text-align:center;padding:20px 20px 30px;colo
   .swipe-hint{display:flex;justify-content:center;}
 }
 @media (max-width:520px){
-  .bee-card{width:230px;}
-  .bee-body{width:200px;}
-  .bee-wing{width:64px;height:88px;}
+  .page-layout{padding:20px 14px 30px;}
+  .bee-nav{display:none;}
+  .bee-carousel{gap:0;margin-top:10px;}
+  .bee-stage{height:330px;}
+  .bee-card{width:190px;}
+  .bee-body{width:165px;padding:10px;}
+  .bee-wing{width:52px;height:72px;}
+  .bee-wing-left{left:-26px;}
+  .bee-wing-right{right:-26px;}
+  .antenna-l{left:34px;height:26px;}
+  .antenna-r{right:34px;height:26px;}
+  .bee-icon{width:46px;height:46px;font-size:1.15rem;margin-bottom:10px;}
+  .bee-inner{padding:16px 14px;}
+  .bee-inner h3{font-size:1.05rem;margin-bottom:6px;}
+  .bee-inner p{font-size:.72rem;margin-bottom:10px;}
+  .bee-dots{margin-top:14px;}
   .site-header{padding:20px 5vw 0;}
-  .beekeeper-img{height:280px;}
+  .beekeeper-img{height:260px;}
 }
 </style>
 </head>

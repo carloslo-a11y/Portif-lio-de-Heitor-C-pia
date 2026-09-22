@@ -593,6 +593,82 @@
             .wrap {
                 padding: 34px 16px 50px;
             }
+
+            /* empilha a tabela em blocos verticais (modo retrato) */
+            .schedule-glass {
+                overflow: visible;
+                background: none;
+                border: none;
+                box-shadow: none;
+                backdrop-filter: none;
+                padding: 0;
+            }
+
+            .schedule-table {
+                min-width: 0;
+                display: block;
+            }
+
+            .schedule-table thead {
+                display: none;
+            }
+
+            .schedule-table tbody {
+                display: block;
+            }
+
+            .schedule-table tbody tr {
+                display: block;
+                background: var(--glass-bg);
+                border: 1px solid var(--glass-border);
+                border-radius: var(--radius);
+                padding: 14px;
+                margin-bottom: 16px;
+                box-shadow: 0 18px 40px rgba(0, 0, 0, .3);
+            }
+
+            .schedule-table tbody th {
+                display: block;
+                width: 100%;
+                text-align: center;
+                padding: 0 0 12px;
+                margin-bottom: 12px;
+                background: rgba(127, 212, 242, .08);
+                font-size: 1.1rem;
+                font-family: var(--font-display);
+                color: var(--jelly);
+            }
+
+            .schedule-table td {
+                display: flex;
+                align-items: center;
+                width: 100%;
+                margin-bottom: 8px;
+                padding: 8px 10px;
+            }
+
+            .schedule-table td::before {
+                content: attr(data-lab);
+                flex: 0 0 70px;
+                text-align: left;
+                font-family: var(--font-display);
+                font-weight: 600;
+                font-size: .84rem;
+                color: var(--jelly);
+            }
+
+            .schedule-table td .chip {
+                width: auto;
+                flex: 1;
+            }
+
+            .schedule-table td:last-child {
+                margin-bottom: 0;
+            }
+
+            .schedule-table td.today-col::before {
+                color: var(--honey-light);
+            }
         }
     </style>
 </head>
@@ -697,6 +773,18 @@
 
     <script>
         (function () {
+            const dayLabels = [];
+            document.querySelectorAll('#scheduleTable thead th').forEach(function (th) {
+                const span = th.querySelector('span');
+                if (span) dayLabels.push(span.textContent.trim());
+            });
+            document.querySelectorAll('#scheduleTable tbody tr').forEach(function (row) {
+                const cells = row.children;
+                for (var i = 1; i < cells.length; i++) {
+                    if (dayLabels[i - 1]) cells[i].setAttribute('data-lab', dayLabels[i - 1]);
+                }
+            });
+
             // destaca a coluna do dia atual (0=Dom...6=Sáb do JS -> mapeado para a ordem Seg..Dom da tabela)
             const jsDayToColIndex = [6, 0, 1, 2, 3, 4, 5];
             const colIndex = jsDayToColIndex[new Date().getDay()];
