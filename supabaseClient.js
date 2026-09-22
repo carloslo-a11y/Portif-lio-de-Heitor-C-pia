@@ -1,5 +1,4 @@
-https://yhbpdtooknnvpevhxtvt.supabase.co/rest/v1/
+const SUPABASE_URL = 'https://yhbpdtooknnvpevhxtvt.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InloYnBkdG9va25udnBldmh4dHZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAwMjA0MDksImV4cCI6MjEwNTU5NjQwOX0.Mtf8NdKG93HG5Bdp58bGs_SIkTXRYuVuKHd-kCeBaLE';
 
-
-
-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InloYnBkdG9va25udnBldmh4dHZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAwMjA0MDksImV4cCI6MjEwNTU5NjQwOX0.Mtf8NdKG93HG5Bdp58bGs_SIkTXRYuVuKHd - kCeBaLE
+const _supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
