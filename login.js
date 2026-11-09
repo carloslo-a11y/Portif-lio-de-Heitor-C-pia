@@ -22,12 +22,17 @@ document.addEventListener('DOMContentLoaded', () => {
     input.addEventListener('input', clearError);
   });
 
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    clearError();
+form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        clearError();
 
-    const email = emailInput.value.trim();
-    const password = passwordInput.value;
+        if (!window._supabase) {
+            showError(window._supabaseError || 'Falha de conexão com o banco. Recarregue a página e tente novamente.');
+            return;
+        }
+
+        const email = emailInput.value.trim();
+        const password = passwordInput.value;
 
     if (!email || !password) {
       showError('Preencha todos os campos.');

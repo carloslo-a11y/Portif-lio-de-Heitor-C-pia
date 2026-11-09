@@ -4,7 +4,8 @@
   "description": "Sistema de login e cadastro - Colmeia de Atividades",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "env:generate": "node scripts/generate-env-config.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.117.0",

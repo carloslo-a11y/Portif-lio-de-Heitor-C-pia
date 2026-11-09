@@ -28,11 +28,16 @@ document.addEventListener('DOMContentLoaded', () => {
     input.addEventListener('input', clearMessages);
   });
 
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    clearMessages();
+form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        clearMessages();
 
-    const nome = nomeInput.value.trim();
+        if (!window._supabase) {
+            showError(window._supabaseError || 'Falha de conexão com o banco. Recarregue a página e tente novamente.');
+            return;
+        }
+
+        const nome = nomeInput.value.trim();
     const email = emailInput.value.trim();
     const senha = passwordInput.value;
     const tipo = document.getElementById('tipo').value;
