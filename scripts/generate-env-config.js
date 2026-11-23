@@ -7,8 +7,10 @@ const dotenv = require('dotenv');
 const root = path.join(__dirname, '..');
 dotenv.config({ path: path.join(root, '.env') });
 
-const url = process.env.SUPABASE_URL || '';
-const key = process.env.SUPABASE_ANON_KEY || '';
+const url = (process.env.SUPABASE_URL || '').trim()
+  .replace(/\/+$/, '')
+  .replace(/\/(rest|realtime|storage|auth)\/v1$/, '');
+const key = (process.env.SUPABASE_ANON_KEY || '').trim();
 
 if (!url || !key) {
   console.error('Erro: SUPABASE_URL e SUPABASE_ANON_KEY devem estar definidos no .env');

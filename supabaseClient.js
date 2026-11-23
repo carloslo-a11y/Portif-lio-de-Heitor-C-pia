@@ -1,8 +1,15 @@
 (function () {
     'use strict';
 
-    var url = String(window.__SUPABASE_URL__ || '').replace(/\/+$/, '');
-    var key = String(window.__SUPABASE_ANON_KEY__ || '');
+    function normalizarUrl(value) {
+        return String(value || '').trim()
+            .replace(/\/+$/, '')
+            .replace(/\/(rest|realtime|storage|auth)\/v1$/, '')
+            .replace(/\/+$/, '');
+    }
+
+    var url = normalizarUrl(window.__SUPABASE_URL__);
+    var key = String(window.__SUPABASE_ANON_KEY__ || '').trim();
     var bucket = 'portfolio';
 
     function msgErro(err) {
@@ -15,9 +22,10 @@
             msg = '';
         }
         var low = String(msg).toLowerCase();
-        if (code === 'PGRST202' || code === 'PGRST203' || code === '42883' ||
+        if (code === 'PGRST202' || code === 'PGRST203' || code === '42883' || code === '42804' ||
             low.indexOf('could not find the function') !== -1 ||
-            low.indexOf('undefined_function') !== -1) {
+            low.indexOf('undefined_function') !== -1 ||
+            low.indexOf('structure of query does not match') !== -1) {
             return 'Banco desatualizado: rode o supabase.sql no SQL Editor do Supabase.';
         }
         if (low.indexOf('row-level security') !== -1 || low.indexOf('permission denied') !== -1 ||

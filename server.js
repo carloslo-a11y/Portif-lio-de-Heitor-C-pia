@@ -18,14 +18,20 @@ app.use(express.json());
 // Injeção das credenciais do Supabase para o browser (site estático, sem bundler).
 // O supabaseClient.js lê window.__SUPABASE_URL__ e window.__SUPABASE_ANON_KEY__.
 // Mantém os segredos fora do frontend: apenas a anon key (pública) é exposta.
+function urlSupabase() {
+  return (process.env.SUPABASE_URL || '').trim()
+    .replace(/\/+$/, '')
+    .replace(/\/(rest|realtime|storage|auth)\/v1$/, '');
+}
+
 app.get('/env-config.js', (req, res) => {
   res.type('application/javascript');
   res.send(
     'window.__SUPABASE_URL__ = ' +
-      JSON.stringify(process.env.SUPABASE_URL || '') +
+      JSON.stringify(urlSupabase()) +
       ';\n' +
       'window.__SUPABASE_ANON_KEY__ = ' +
-      JSON.stringify(process.env.SUPABASE_ANON_KEY || '') +
+      JSON.stringify((process.env.SUPABASE_ANON_KEY || '').trim()) +
       ';\n'
   );
 });

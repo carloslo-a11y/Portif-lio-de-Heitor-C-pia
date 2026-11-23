@@ -40,7 +40,7 @@ drop policy if exists "usuarios_publico" on public.usuarios;
 revoke all on public.usuarios from anon, authenticated;
 
 create or replace function public.fazer_login(p_email text, p_senha text)
-returns table (id int, nome text, email text, tipo text, papel text)
+returns table (id bigint, nome text, email text, tipo text, papel text)
 language plpgsql
 security definer
 set search_path = public, extensions
