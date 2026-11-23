@@ -32,7 +32,7 @@ form.addEventListener('submit', async (e) => {
         e.preventDefault();
         clearMessages();
 
-        if (!window._supabase) {
+        if (!window.SB || !window.SB.ready()) {
             showError(window._supabaseError || 'Falha de conexão com o banco. Recarregue a página e tente novamente.');
             return;
         }
@@ -56,26 +56,12 @@ form.addEventListener('submit', async (e) => {
     cadastroBtn.textContent = 'Cadastrando...';
 
     try {
-      // Verifica se o e-mail já existe no Supabase
-      const { data: existingUser, error: checkError } = await _supabase
-        .from('usuarios')
-        .select('id')
-        .eq('email', email)
-        .maybeSingle();
+      const resultado = await window.SB.cadastrar(nome, email, senha, tipo);
 
-      if (checkError) throw checkError;
-
-      if (existingUser) {
+      if (resultado === 'email_existente') {
         showError('E-mail já cadastrado.');
         return;
       }
-
-      // Insere o novo utilizador na tabela do Supabase
-      const { error: insertError } = await _supabase
-        .from('usuarios')
-        .insert([{ nome, email, senha, tipo }]);
-
-      if (insertError) throw insertError;
 
       showSuccess('Cadastro realizado! Redirecionando...');
       setTimeout(() => {
@@ -83,7 +69,7 @@ form.addEventListener('submit', async (e) => {
       }, 1500);
     } catch (err) {
       console.error(err);
-      showError('Erro ao realizar o cadastro. Tente novamente.');
+      showError(window.SB ? window.SB.msgErro(err) : 'Erro ao realizar o cadastro.');
     } finally {
       cadastroBtn.classList.remove('loading');
       cadastroBtn.textContent = 'Cadastrar';

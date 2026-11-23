@@ -26,7 +26,7 @@ form.addEventListener('submit', async (e) => {
         e.preventDefault();
         clearError();
 
-        if (!window._supabase) {
+        if (!window.SB || !window.SB.ready()) {
             showError(window._supabaseError || 'Falha de conexão com o banco. Recarregue a página e tente novamente.');
             return;
         }
@@ -43,32 +43,17 @@ form.addEventListener('submit', async (e) => {
     accessBtn.textContent = 'Entrando...';
 
     try {
-      // Consulta o utilizador diretamente na tabela do Supabase
-      const { data: user, error } = await _supabase
-        .from('usuarios')
-        .select('*')
-        .eq('email', email)
-        .eq('senha', password)
-        .maybeSingle();
-
-      if (error) throw error;
+      const user = await window.SB.login(email, password);
 
       if (!user) {
         showError('E-mail ou senha incorretos.');
         return;
       }
 
-      localStorage.setItem('user', JSON.stringify({
-        id: user.id,
-        nome: user.nome,
-        email: user.email,
-        tipo: user.tipo
-      }));
-
       window.location.href = 'index.html';
     } catch (err) {
       console.error(err);
-      showError('Erro ao efetuar login. Verifique a sua ligação.');
+      showError(window.SB ? window.SB.msgErro(err) : 'Erro ao efetuar login.');
     } finally {
       accessBtn.classList.remove('loading');
       accessBtn.textContent = 'Acessar';
