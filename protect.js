@@ -20,7 +20,7 @@
 
     var style = document.createElement('style');
     style.textContent =
-        'body.sb-viewer .activity-form,body.sb-viewer .add-item-btn,body.sb-viewer .edit-btn,' +
+        'body.sb-viewer .activity-form,body.sb-viewer .anexo-form,body.sb-viewer .add-item-btn,body.sb-viewer .edit-btn,' +
         'body.sb-viewer .remove-btn,body.sb-viewer .replace-btn{display:none !important;}' +
         '.pf-home-bar{position:fixed;bottom:16px;right:16px;z-index:9999;display:flex;gap:10px;align-items:center;}' +
         '.pf-home-bar .pf-btn{font-family:"Space Mono",monospace;font-size:12px;letter-spacing:.05em;text-decoration:none;border:none;cursor:pointer;' +

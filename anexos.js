@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    const MAX_SIZE = 2 * 1024 * 1024;
+    const MAX_SIZE = 5 * 1024 * 1024;
     const STORAGE_KEY = 'anexos-portfolio-2026';
 
     let containers = [];
@@ -9,9 +9,8 @@
     let descPadrao = [];
     let editavel = false;
     let existiaRemoto = false;
-    let canal = null;
-    let syncPendente = false;
     let toastEl = null;
+    let syncPendente = false;
     const timers = [];
 
     function agora() {
@@ -56,10 +55,9 @@
                     caption: foto.caption || ''
                 };
             }) : [];
-            const temDesc = typeof dados.desc === 'string';
             mapa[numero] = {
                 passo: numero,
-                desc: temDesc ? dados.desc : descPadrao[numero - 1],
+                desc: typeof dados.desc === 'string' ? dados.desc : descPadrao[numero - 1],
                 fotos: fotos
             };
         });
@@ -87,30 +85,24 @@
             });
     }
 
-    function coletar(indice) {
-        const container = containers[indice];
-        const desc = container.querySelector('.step-desc');
-        const fotos = Array.from(container.querySelectorAll('.attach-item')).map(function (item) {
-            return {
-                id: item.dataset.id || SB.nowId('anexo'),
-                src: item.dataset.src || item.querySelector('img').src,
-                caption: item.querySelector('.caption').textContent
-            };
-        });
-        return { desc: desc.innerHTML, fotos: fotos };
+    function montarDados(indice) {
+        const desc = containers[indice].querySelector('.step-desc');
+        return {
+            desc: desc ? desc.innerHTML : (passos[indice] ? passos[indice].desc : ''),
+            fotos: (passos[indice] && passos[indice].fotos) || []
+        };
     }
 
-    function salvar(indice) {
+    function salvarPasso(indice) {
         if (!editavel || !window.SB || !SB.ready()) return Promise.resolve();
         const passo = indice + 1;
         return SB.client().from('anexos').upsert({
             id: 'passo-' + passo,
             passo: passo,
-            dados: coletar(indice),
+            dados: montarDados(indice),
             atualizado_em: agora()
         }, { onConflict: 'id' }).then(function (res) {
             if (res && res.error) throw res.error;
-            passos[indice] = Object.assign({ passo: passo }, coletar(indice));
             return true;
         });
     }
@@ -118,60 +110,57 @@
     function salvarComDebounce(indice) {
         clearTimeout(timers[indice]);
         timers[indice] = setTimeout(function () {
-            salvar(indice).catch(function (err) { showToast(SB.msgErro(err)); });
+            salvarPasso(indice).catch(function (err) { showToast(SB.msgErro(err)); });
         }, 600);
+    }
+
+    function persistir(indice, mensagem) {
+        return salvarPasso(indice)
+            .then(loadFromCloud)
+            .then(render)
+            .then(function () {
+                if (mensagem) showToast(mensagem);
+                return true;
+            });
     }
 
     function uploadPath(passo, id, ext) {
         return 'anexos/passo-' + passo + '/' + SB.sanitize(id) + '.' + SB.extensao(ext, '');
     }
 
-    function adicionar(indice, file) {
+    function adicionar(indice, texto, file) {
         const passo = indice + 1;
         const id = SB.nowId('anexo');
         const path = uploadPath(passo, id, SB.extensao(file.name, file.type));
         return SB.uploadFile(file, path, true).then(function (url) {
-            const atual = coletar(indice);
-            passos[indice] = {
-                passo: passo,
-                desc: atual.desc,
-                fotos: atual.fotos.concat([{ id: id, src: url, caption: '' }])
-            };
-            render();
-            return salvar(indice);
-        }).then(function () {
-            showToast('Anexo enviado para a nuvem ✓');
+            passos[indice].fotos.push({ id: id, src: url, caption: texto });
+            return persistir(indice, 'Anexo salvo na nuvem ✓');
         });
     }
 
-    function trocar(indice, foto, file) {
-        const passo = indice + 1;
+    function trocarArquivo(indice, foto, file) {
         const anterior = foto.src;
-        const path = uploadPath(passo, foto.id, SB.extensao(file.name, file.type));
+        const path = uploadPath(indice + 1, foto.id, SB.extensao(file.name, file.type));
         return SB.uploadFile(file, path, true).then(function (url) {
-            const item = Array.from(containers[indice].querySelectorAll('.attach-item'))
-                .find(function (node) { return node.dataset.id === foto.id; });
-            if (item) {
-                item.dataset.src = url;
-                item.querySelector('img').src = url;
-            }
             foto.src = url;
-            return salvar(indice);
+            return persistir(indice, 'Imagem trocada ✓');
         }).then(function () {
             if (anterior !== foto.src) SB.removeByUrl(anterior);
-            showToast('Anexo trocado ✓');
         });
+    }
+
+    function alterarTexto(indice, foto, texto) {
+        foto.caption = texto;
+        return persistir(indice, 'Texto atualizado ✓');
     }
 
     function remover(indice, foto) {
-        const items = passos[indice].fotos;
-        const posicao = items.findIndex(function (item) { return item.id === foto.id; });
-        if (posicao !== -1) items.splice(posicao, 1);
-        const item = Array.from(containers[indice].querySelectorAll('.attach-item'))
-            .find(function (node) { return node.dataset.id === foto.id; });
-        if (item) item.remove();
-        SB.removeByUrl(foto.src);
-        return salvar(indice).then(function () { showToast('Anexo removido.'); });
+        passos[indice].fotos = passos[indice].fotos.filter(function (item) {
+            return item.id !== foto.id;
+        });
+        return persistir(indice, 'Anexo removido.').then(function () {
+            SB.removeByUrl(foto.src);
+        });
     }
 
     function lerLegado() {
@@ -201,14 +190,13 @@
                         });
                     });
                 }, Promise.resolve()).then(function (enviadas) {
-                    const dados = {
-                        desc: typeof bloco.desc === 'string' ? bloco.desc : descPadrao[indice],
-                        fotos: enviadas
-                    };
                     return SB.client().from('anexos').upsert({
                         id: 'passo-' + (indice + 1),
                         passo: indice + 1,
-                        dados: dados,
+                        dados: {
+                            desc: typeof bloco.desc === 'string' ? bloco.desc : descPadrao[indice],
+                            fotos: enviadas
+                        },
                         atualizado_em: agora()
                     }, { onConflict: 'id' });
                 });
@@ -248,7 +236,7 @@
     }
 
     function observar() {
-        canal = SB.subscribe('anexos', function () {
+        SB.subscribe('anexos', function () {
             if (document.activeElement && document.activeElement.isContentEditable) {
                 syncPendente = true;
                 return;
@@ -273,12 +261,16 @@
             const desc = container.querySelector('.step-desc');
             return desc ? desc.innerHTML : '';
         });
+        passos = descPadrao.map(function (desc, i) {
+            return { passo: i + 1, desc: desc, fotos: [] };
+        });
         editavel = !!(window.SB && SB.ready() && SB.podeEditar());
 
-        injectStyles();
+        bindDescricoes();
         buildHeaderAndNav();
-        bindEdicoes();
+        if (editavel) buildForm();
         buildLightbox();
+        scrollReveal();
 
         if (!window.SB || !SB.ready()) {
             const antigos = lerLegado();
@@ -308,67 +300,218 @@
             });
     });
 
-    function bindEdicoes() {
+    function bindDescricoes() {
         containers.forEach(function (container, indice) {
             const desc = container.querySelector('.step-desc');
-            desc.addEventListener('input', function () { salvarComDebounce(indice); });
-
-            const addBtn = container.querySelector('.add-item-btn');
-            const fileInput = container.querySelector('.file-input');
-            if (addBtn) {
-                addBtn.addEventListener('click', function () { fileInput.click(); });
-                fileInput.addEventListener('change', function () {
-                    const file = fileInput.files && fileInput.files[0];
-                    fileInput.value = '';
-                    if (!file) return;
-                    if (file.size > MAX_SIZE) {
-                        showToast('Imagem muito grande. Use até 2 MB.');
-                        return;
-                    }
-                    adicionar(indice, file).catch(function (err) { showToast(SB.msgErro(err)); });
-                });
+            if (desc) {
+                desc.addEventListener('input', function () { salvarComDebounce(indice); });
             }
         });
+    }
+
+    function buildHeaderAndNav() {
+        const header = document.createElement('div');
+        header.className = 'hive-header';
+        header.innerHTML =
+            '<div class="eyebrow">Área de Anexos <span>·</span> Portfólio 2026</div>' +
+            '<h2>' + esc(document.title || 'Anexos') + '</h2>';
+        const atividades = document.querySelector('.atividades');
+        document.body.insertBefore(header, atividades);
+
+        const navLinks = containers.map(function (container) {
+            const num = container.dataset.step || '1';
+            const id = 'anexo-' + num;
+            container.id = id;
+
+            const h1 = container.querySelector('h1');
+            if (h1 && !h1.querySelector('.eixo-badge')) {
+                const badge = document.createElement('span');
+                badge.className = 'eixo-badge';
+                badge.textContent = String(num).padStart(2, '0');
+                h1.insertBefore(badge, h1.firstChild);
+            }
+            return '<a href="#' + id + '"><span class="dot"></span>Anexo ' + num + '</a>';
+        });
+
+        const nav = document.createElement('nav');
+        nav.className = 'hive-nav';
+        nav.innerHTML = navLinks.join('');
+        document.body.insertBefore(nav, document.querySelector('.atividades'));
+    }
+
+    function buildForm() {
+        const form = document.createElement('div');
+        form.className = 'anexo-form';
+        form.innerHTML =
+            '<h3>🐝 Adicionar anexo</h3>' +
+            '<p class="form-hint">Escolha a imagem, escreva um texto sobre o anexo e selecione o anexo. Tudo é salvo na nuvem.</p>' +
+            '<div class="form-row">' +
+            '  <div class="field">' +
+            '    <label for="anexo-texto">Texto do anexo</label>' +
+            '    <input id="anexo-texto" type="text" placeholder="Ex.: Foto da maquete do bairro" autocomplete="off">' +
+            '  </div>' +
+            '  <div class="field">' +
+            '    <label for="anexo-numero">Anexo</label>' +
+            '    <select id="anexo-numero">' +
+            '      <option value="1">Anexo 1</option>' +
+            '      <option value="2">Anexo 2</option>' +
+            '      <option value="3">Anexo 3</option>' +
+            '      <option value="4">Anexo 4</option>' +
+            '      <option value="5">Anexo 5</option>' +
+            '      <option value="6">Anexo 6</option>' +
+            '    </select>' +
+            '  </div>' +
+            '</div>' +
+            '<div class="field">' +
+            '  <label for="anexo-file">Imagem do anexo</label>' +
+            '  <label class="file-btn" for="anexo-file">📁 Escolher imagem…</label>' +
+            '  <input id="anexo-file" type="file" accept="image/*">' +
+            '  <div class="file-name"></div>' +
+            '</div>' +
+            '<button class="add-btn" type="button">+ Adicionar anexo</button>';
+
+        const textoInput = form.querySelector('#anexo-texto');
+        const anexoSelect = form.querySelector('#anexo-numero');
+        const fileInput = form.querySelector('#anexo-file');
+        const fileName = form.querySelector('.file-name');
+        const addBtn = form.querySelector('.add-btn');
+        let arquivo = null;
+
+        fileInput.addEventListener('change', function () {
+            const file = fileInput.files && fileInput.files[0];
+            arquivo = null;
+            if (!file) {
+                fileName.textContent = '';
+                return;
+            }
+            if (file.size > MAX_SIZE) {
+                showToast('Imagem muito grande. Use até 5 MB.');
+                fileInput.value = '';
+                fileName.textContent = '';
+                return;
+            }
+            arquivo = file;
+            fileName.textContent = '✅ ' + file.name;
+        });
+
+        addBtn.addEventListener('click', function () {
+            const texto = textoInput.value.trim();
+            if (!texto) {
+                showToast('Digite um texto para o anexo.');
+                textoInput.focus();
+                return;
+            }
+            if (!arquivo) {
+                showToast('Escolha a imagem do anexo.');
+                fileInput.click();
+                return;
+            }
+            addBtn.disabled = true;
+            addBtn.textContent = 'Enviando...';
+            adicionar(parseInt(anexoSelect.value, 10) - 1, texto, arquivo)
+                .then(function () {
+                    textoInput.value = '';
+                    fileInput.value = '';
+                    fileName.textContent = '';
+                    arquivo = null;
+                    anexoSelect.value = '1';
+                })
+                .catch(function (err) { showToast(SB.msgErro(err)); })
+                .then(function () {
+                    addBtn.disabled = false;
+                    addBtn.textContent = '+ Adicionar anexo';
+                });
+        });
+
+        const target = document.querySelector('.center') || document.querySelector('.atividades');
+        target.insertBefore(form, target.firstChild);
     }
 
     function render() {
         containers.forEach(function (container, indice) {
             const bloco = passos[indice];
             if (!bloco) return;
+
             const desc = container.querySelector('.step-desc');
-            desc.innerHTML = bloco.desc || '';
-            desc.contentEditable = editavel ? 'true' : 'false';
+            if (desc) {
+                desc.innerHTML = bloco.desc || '';
+                desc.contentEditable = editavel ? 'true' : 'false';
+            }
 
             const gallery = container.querySelector('.image-gallery');
             gallery.innerHTML = '';
+            if (!bloco.fotos.length) {
+                const empty = document.createElement('p');
+                empty.className = 'gallery-empty';
+                empty.textContent = editavel
+                    ? '🐝 Nenhum anexo. Use o formulário acima!'
+                    : '🐝 Nenhum anexo cadastrado.';
+                gallery.appendChild(empty);
+                return;
+            }
             bloco.fotos.forEach(function (foto) {
                 gallery.appendChild(buildItem(indice, foto));
             });
-
-            const addBtn = container.querySelector('.add-item-btn');
-            if (addBtn) addBtn.hidden = !editavel;
         });
     }
 
     function buildItem(indice, foto) {
         const item = document.createElement('div');
-        item.className = 'attach-item';
-        item.dataset.id = foto.id;
-        item.dataset.src = foto.src;
+        item.className = 'anexo-item';
         item.innerHTML =
-            '<img src="' + esc(foto.src) + '" alt="Anexo">' +
+            '<div class="anexo-frame"><img src="' + esc(foto.src) + '" alt="' + esc(foto.caption || 'Anexo') + '"></div>' +
             (editavel
-                ? '<button type="button" class="replace-btn" aria-label="Trocar anexo">&#8635;</button>' +
+                ? '<button type="button" class="edit-btn" aria-label="Alterar texto">&#9998;</button>' +
+                  '<button type="button" class="replace-btn" aria-label="Trocar imagem">&#8635;</button>' +
                   '<button type="button" class="remove-btn" aria-label="Remover anexo">&times;</button>'
                 : '') +
-            '<div class="caption" contenteditable="' + (editavel ? 'true' : 'false') + '"></div>';
+            '<div class="anexo-texto">' + esc(foto.caption || 'Sem texto') + '</div>';
 
-        const cap = item.querySelector('.caption');
-        cap.textContent = foto.caption || 'Legenda do anexo…';
-        cap.addEventListener('input', function () { salvarComDebounce(indice); });
-        item.querySelector('img').addEventListener('click', function () { openLightbox(foto.src); });
+        item.querySelector('img').addEventListener('click', function () {
+            openLightbox(foto.src, foto.caption);
+        });
 
         if (editavel) {
+            item.querySelector('.edit-btn').addEventListener('click', function () {
+                const textEl = item.querySelector('.anexo-texto');
+                if (!textEl) return;
+                const editor = document.createElement('div');
+                editor.className = 'anexo-texto-ed';
+
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.value = foto.caption || '';
+                input.placeholder = 'Texto do anexo';
+
+                const save = document.createElement('button');
+                save.type = 'button';
+                save.className = 'text-ok';
+                save.setAttribute('aria-label', 'Salvar texto');
+                save.textContent = '✓';
+
+                function confirmar() {
+                    const novo = input.value.trim();
+                    if (!novo) {
+                        showToast('Digite um texto para o anexo.');
+                        input.focus();
+                        return;
+                    }
+                    alterarTexto(indice, foto, novo)
+                        .catch(function (err) { showToast(SB.msgErro(err)); });
+                }
+
+                save.addEventListener('click', confirmar);
+                input.addEventListener('keydown', function (e) {
+                    if (e.key === 'Enter') confirmar();
+                    if (e.key === 'Escape') render();
+                });
+
+                textEl.replaceWith(editor);
+                editor.appendChild(input);
+                editor.appendChild(save);
+                input.focus();
+            });
+
             item.querySelector('.replace-btn').addEventListener('click', function () {
                 const picker = document.createElement('input');
                 picker.type = 'file';
@@ -380,13 +523,15 @@
                     picker.remove();
                     if (!file) return;
                     if (file.size > MAX_SIZE) {
-                        showToast('Imagem muito grande. Use até 2 MB.');
+                        showToast('Imagem muito grande. Use até 5 MB.');
                         return;
                     }
-                    trocar(indice, foto, file).catch(function (err) { showToast(SB.msgErro(err)); });
+                    trocarArquivo(indice, foto, file)
+                        .catch(function (err) { showToast(SB.msgErro(err)); });
                 });
                 picker.click();
             });
+
             item.querySelector('.remove-btn').addEventListener('click', function () {
                 remover(indice, foto).catch(function (err) { showToast(SB.msgErro(err)); });
             });
@@ -394,64 +539,48 @@
         return item;
     }
 
-    function buildHeaderAndNav() {
-        const header = document.createElement('div');
-        header.className = 'hive-header';
-        header.innerHTML =
-            '<div class="eyebrow">Anexos <span>·</span> Portfólio 2026</div>' +
-            '<h2>' + esc(document.title || 'Anexos') + '</h2>';
-        const atividades = document.querySelector('.atividades');
-        document.body.insertBefore(header, atividades);
-
-        const navLinks = containers.map(function (container) {
-            const num = container.dataset.step || '1';
-            const id = 'passo-' + num;
-            container.id = id;
-
-            const h1 = container.querySelector('h1');
-            if (h1 && !h1.querySelector('.eixo-badge')) {
-                const badge = document.createElement('span');
-                badge.className = 'eixo-badge';
-                badge.textContent = String(num).padStart(2, '0');
-                h1.insertBefore(badge, h1.firstChild);
-            }
-            return '<a href="#' + id + '"><span class="dot"></span>Passo ' + num + '</a>';
-        });
-
-        const nav = document.createElement('nav');
-        nav.className = 'hive-nav';
-        nav.innerHTML = navLinks.join('');
-        document.body.insertBefore(nav, document.querySelector('.atividades'));
-    }
+    let lightbox = null;
+    let lightboxImg = null;
 
     function buildLightbox() {
-        const lightbox = document.createElement('div');
+        lightbox = document.createElement('div');
         lightbox.className = 'hive-lightbox';
         lightbox.innerHTML = '<button class="close-btn" aria-label="Fechar" type="button">&times;</button><img alt="">';
         document.body.appendChild(lightbox);
-        const img = lightbox.querySelector('img');
-        const close = function () { lightbox.classList.remove('open'); };
-        lightbox.querySelector('.close-btn').addEventListener('click', close);
-        lightbox.addEventListener('click', function (e) { if (e.target === lightbox) close(); });
-        document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
-        openLightbox = function (src) {
-            img.src = src;
-            lightbox.classList.add('open');
-        };
+        lightboxImg = lightbox.querySelector('img');
+
+        lightbox.querySelector('.close-btn').addEventListener('click', closeLightbox);
+        lightbox.addEventListener('click', function (e) {
+            if (e.target === lightbox) closeLightbox();
+        });
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') closeLightbox();
+        });
     }
 
-    let openLightbox = function () { };
+    function openLightbox(src, alt) {
+        lightboxImg.src = src;
+        lightboxImg.alt = alt || '';
+        lightbox.classList.add('open');
+    }
 
-    function injectStyles() {
-        const style = document.createElement('style');
-        style.textContent =
-            '.attach-item .replace-btn{position:absolute;top:8px;left:8px;width:30px;height:30px;' +
-            'clip-path:polygon(25% 0%,75% 0%,100% 50%,75% 100%,25% 100%,0% 50%);' +
-            'background:var(--honey-gold);color:var(--hive-black);border:none;font-size:15px;' +
-            'cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;' +
-            'transition:opacity .18s ease;z-index:2}' +
-            '.attach-item:hover .replace-btn{opacity:1}' +
-            '.attach-item .caption[contenteditable="false"]{cursor:default}';
-        document.head.appendChild(style);
+    function closeLightbox() {
+        lightbox.classList.remove('open');
+    }
+
+    function scrollReveal() {
+        if ('IntersectionObserver' in window) {
+            const observer = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('in-view');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.15 });
+            containers.forEach(function (c) { observer.observe(c); });
+        } else {
+            containers.forEach(function (c) { c.classList.add('in-view'); });
+        }
     }
 })();

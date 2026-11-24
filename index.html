@@ -703,7 +703,7 @@
         .work {
             max-width: 1080px;
             margin: 0 auto;
-            padding: 2rem 1.5rem 10rem;
+            padding: 2rem 1.5rem 4rem;
         }
 
 
@@ -727,6 +727,85 @@
             font-size: 1.05rem;
             line-height: 1.8;
             margin-bottom: 2.5rem;
+        }
+
+        .work-intro {
+            display: grid;
+            grid-template-columns: 104px minmax(0, 1fr);
+            align-items: stretch;
+            gap: 1.4rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .work-figure {
+            --figure-pad: 8px;
+            position: relative;
+            width: 104px;
+            min-height: 0;
+            padding: var(--figure-pad);
+            border-radius: 16px;
+            background: linear-gradient(160deg, rgba(240, 168, 60, .14), rgba(15, 21, 38, .92));
+            border: 1px solid var(--honey-glow);
+            box-shadow: 0 10px 24px rgba(0, 0, 0, .5), 0 0 18px rgba(240, 168, 60, .14);
+        }
+
+        .work-figure img {
+            position: absolute;
+            top: var(--figure-pad);
+            left: var(--figure-pad);
+            display: block;
+            width: calc(100% - var(--figure-pad) - var(--figure-pad));
+            height: calc(100% - var(--figure-pad) - var(--figure-pad));
+            object-fit: contain;
+            filter: drop-shadow(0 6px 8px rgba(0, 0, 0, .55));
+        }
+
+        .work-intro p {
+            margin-bottom: 0;
+        }
+
+        .projeto-vida {
+            max-width: 1080px;
+            margin: 0 auto;
+            padding: 0 1.5rem 8rem;
+            scroll-margin-top: 6rem;
+        }
+
+        .projeto-vida h2 {
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            color: var(--cream);
+            margin: 1rem 0 2rem;
+        }
+
+        .projeto-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1.5rem;
+            align-items: stretch;
+        }
+
+        .projeto-grid .feature-card:first-child {
+            grid-column: 1 / -1;
+        }
+
+        .projeto-grid .feature-card {
+            height: 100%;
+            flex-direction: column;
+            gap: 1.2rem;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, .06);
+        }
+
+        .projeto-grid .feature-card:hover {
+            border-color: var(--honey-glow);
+        }
+
+        .projeto-grid .feature-card:first-child .card-content {
+            max-width: 780px;
+        }
+
+        .projeto-grid .card-content p + p {
+            margin-top: 1rem;
         }
 
         .social-feature {
@@ -844,6 +923,10 @@
                 grid-template-columns: 1fr;
                 gap: 3rem;
             }
+
+            .projeto-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
 
@@ -932,11 +1015,35 @@
             }
 
             .work {
-                padding: 1.5rem 1.2rem 6rem;
+                padding: 1.5rem 1.2rem 3rem;
+            }
+
+            .projeto-vida {
+                padding: 0 1.2rem 5rem;
+            }
+
+            .projeto-vida h2 {
+                font-size: 1.8rem;
+                margin: 0.8rem 0 1.8rem;
+            }
+
+            .projeto-grid .feature-card {
+                padding: 1.5rem;
+                gap: 1rem;
             }
 
             .features-left p {
                 font-size: 0.98rem;
+            }
+
+            .work-intro {
+                grid-template-columns: 88px minmax(0, 1fr);
+                gap: 1rem;
+            }
+
+            .work-figure {
+                --figure-pad: 6px;
+                width: 88px;
             }
 
             .feature-card {
@@ -1004,8 +1111,11 @@
         <div class="nav-links">
             <a href="./areas.html">Áreas do Conhecimento</a>
             <a href="#about">História de Vida</a>
+            <a href="#projeto-de-vida">Projeto de Vida</a>
             <a href="./ppe.html">PPE</a>
             <a href="./anexos.html">Anexos</a>
+            <a href="./curriculo.html">Currículo</a>
+            <a href="./consideracoes.html">Considerações</a>
         </div>
         <a class="nav-email" href="mailto:carlosheitorcostalo@gmail.com">carlosheitorcostalo@gmail.com</a>
         <button class="nav-toggle" id="navToggle" type="button" aria-label="Abrir menu"
@@ -1023,8 +1133,11 @@
     <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
         <a href="./areas.html">Áreas do Conhecimento</a>
         <a href="#about">História de Vida</a>
+        <a href="#projeto-de-vida">Projeto de Vida</a>
         <a href="./ppe.html">PPE</a>
         <a href="./anexos.html">Anexos</a>
+        <a href="./curriculo.html">Currículo</a>
+        <a href="./consideracoes.html">Considerações</a>
         <a class="menu-email" href="mailto:carlosheitorcostalo@gmail.com">carlosheitorcostalo@gmail.com</a>
     </div>
 
@@ -1106,10 +1219,15 @@
             <div class="features-left">
                 <span class="kicker">Foco & Resultados</span>
                 <h2>Carlos Heitor: dedicação, propósito e aprendizado constante</h2>
-                <p>Como estudante da 3ª série do Ensino Médio no SESI Wilma Catão Araújo, meu objetivo vai além de
-                    apenas concluir uma etapa escolar: desenvolver habilidades, competências e pensamentos de
-                    forma prática e consciente, aproveitando cada oportunidade das quatro áreas do conhecimento para
-                    crescer intelectual, pessoal e socialmente.</p>
+                <div class="work-intro">
+                    <div class="work-figure">
+                        <img src="./img/carlosia.png" alt="Ilustração de Carlos Heitor" loading="lazy">
+                    </div>
+                    <p>Como estudante da 3ª série do Ensino Médio no SESI Wilma Catão Araújo, meu objetivo vai além de
+                        apenas concluir uma etapa escolar: desenvolver habilidades, competências e pensamentos de
+                        forma prática e consciente, aproveitando cada oportunidade das quatro áreas do conhecimento para
+                        crescer intelectual, pessoal e socialmente.</p>
+                </div>
 
                 <div class="stats-feature">
                     <div class="stat-item">
@@ -1176,6 +1294,41 @@
         </div>
     </section>
 
+    <section class="projeto-vida" id="projeto-de-vida">
+        <span class="kicker">projeto de vida</span>
+        <h2>Projeto de Vida</h2>
+        <div class="projeto-grid">
+            <article class="feature-card">
+                <svg viewBox="0 0 24 24" class="card-icon" fill="var(--honey)">
+                    <path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z" />
+                </svg>
+                <div class="card-content">
+                    <h3>Onde estou?</h3>
+                    <p>Estou finalizando minha história no SESI, nessa escola que me acompanhou desde o início da minha vida, e essa fase está sendo muito importante para mim, pois é um ciclo familiar, mas sei que teremos chances futuras de nos encontrar, pois a vida é cheia de surpresas.</p>
+                    <p>Mas também estou em uma fase complicada na minha família, mas sei que Jesus Cristo vai nos ajudar. Desejo que Deus abençoe meus planos, não só os meus, mas também o de todos que estão comigo.</p>
+                </div>
+            </article>
+            <article class="feature-card">
+                <svg viewBox="0 0 24 24" class="card-icon" fill="var(--honey)">
+                    <path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8L12 2z" />
+                </svg>
+                <div class="card-content">
+                    <h3>Onde quero chegar?</h3>
+                    <p>Vou conquistar todos os meus objetivos e sonhos, realizar nossos desejos e sempre com Jesus e Jeová em primeiro lugar.</p>
+                </div>
+            </article>
+            <article class="feature-card">
+                <svg viewBox="0 0 24 24" class="card-icon" fill="var(--honey)">
+                    <path d="M5 2v20h2v-8h9l-2 3h3l3-5-3-5h-3l2 3H7V2H5z" />
+                </svg>
+                <div class="card-content">
+                    <h3>Como chegarei lá?</h3>
+                    <p>Com o foco na minha melhoria, nos estudos e Deus na frente para me corrigir e me abençoar.</p>
+                </div>
+            </article>
+        </div>
+    </section>
+
     <footer class="contact">
         <span class="kicker">contato</span>
         <h2>vamos conversar</h2>
@@ -1185,6 +1338,7 @@
             <a href="https://wa.me/5589994454859" target="_blank" rel="noopener">whatsapp</a>
         </div>
         <div class="footnote">© 2026 Carlos Heitor <span class="dot">•</span> todos os direitos reservados</div>
+        <div class="footnote">Orientadores: Professora: Regiane Leal Professor: Cleiton Jericó</div>
     </footer>
 
     <script>

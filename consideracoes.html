@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Considerações Finais e Referências — Portfólio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,800&family=Space+Grotesk:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --hive-black: #170F09;
+            --hive-brown: #241708;
+            --hive-brown-2: #2E1D0C;
+            --honey-gold: #E6A233;
+            --honey-bright: #FFC93C;
+            --honey-deep: #B9741F;
+            --comb-line: #5A3A16;
+            --text-light: #F6E7C6;
+            --text-muted: #C9AE83;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background-color: var(--hive-black);
+            background-image:
+                linear-gradient(30deg, rgba(230, 162, 51, .055) 12%, transparent 12.5%, transparent 87%, rgba(230, 162, 51, .055) 87.5%, rgba(230, 162, 51, .055)),
+                linear-gradient(150deg, rgba(230, 162, 51, .055) 12%, transparent 12.5%, transparent 87%, rgba(230, 162, 51, .055) 87.5%, rgba(230, 162, 51, .055)),
+                linear-gradient(30deg, rgba(230, 162, 51, .055) 12%, transparent 12.5%, transparent 87%, rgba(230, 162, 51, .055) 87.5%, rgba(230, 162, 51, .055)),
+                linear-gradient(150deg, rgba(230, 162, 51, .055) 12%, transparent 12.5%, transparent 87%, rgba(230, 162, 51, .055) 87.5%, rgba(230, 162, 51, .055)),
+                linear-gradient(60deg, rgba(230, 162, 51, .04) 25%, transparent 25.5%, transparent 75%, rgba(230, 162, 51, .04) 75%, rgba(230, 162, 51, .04)),
+                linear-gradient(60deg, rgba(230, 162, 51, .04) 25%, transparent 25.5%, transparent 75%, rgba(230, 162, 51, .04) 75%, rgba(230, 162, 51, .04));
+            background-size: 56px 98px;
+            background-position: 0 0, 0 0, 28px 49px, 28px 49px, 0 0, 28px 49px;
+            color: var(--text-light);
+            font-family: 'Space Grotesk', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .bg-glow-container {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(90px);
+            opacity: .35;
+            mix-blend-mode: screen;
+        }
+
+        .blob-1 {
+            width: 520px;
+            height: 520px;
+            top: -10%;
+            left: -8%;
+            background: radial-gradient(circle at 30% 30%, var(--honey-bright), transparent 70%);
+            animation: drift1 22s ease-in-out infinite;
+        }
+
+        .blob-2 {
+            width: 460px;
+            height: 460px;
+            bottom: -12%;
+            right: -6%;
+            background: radial-gradient(circle at 60% 40%, var(--honey-deep), transparent 70%);
+            animation: drift2 26s ease-in-out infinite;
+        }
+
+        .blob-3 {
+            width: 360px;
+            height: 360px;
+            top: 40%;
+            left: 45%;
+            background: radial-gradient(circle at 50% 50%, var(--honey-gold), transparent 70%);
+            opacity: .22;
+            animation: drift3 30s ease-in-out infinite;
+        }
+
+        @keyframes drift1 {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(40px, 30px); }
+        }
+
+        @keyframes drift2 {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(-30px, -40px); }
+        }
+
+        @keyframes drift3 {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.15); }
+        }
+
+        .hive-header {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 56px 24px 20px;
+        }
+
+        .hive-header .eyebrow {
+            font-family: 'Space Mono', monospace;
+            font-size: 11.5px;
+            letter-spacing: .24em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 14px;
+        }
+
+        .hive-header .eyebrow span {
+            color: var(--honey-bright);
+        }
+
+        .hive-header h2 {
+            font-family: 'Fraunces', serif;
+            font-weight: 800;
+            font-size: clamp(2.2rem, 5vw, 3.6rem);
+            margin: 0;
+            line-height: 1.02;
+            background: linear-gradient(180deg, var(--honey-bright) 0%, var(--honey-gold) 55%, var(--honey-deep) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hive-nav {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            padding: 14px 16px;
+            background: rgba(23, 15, 9, .86);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid rgba(230, 162, 51, .16);
+        }
+
+        .hive-nav a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            font-family: 'Space Mono', monospace;
+            font-size: 12.5px;
+            letter-spacing: .05em;
+            color: var(--text-light);
+            padding: 9px 16px 9px 12px;
+            background: var(--hive-brown-2);
+            border: 1px solid var(--comb-line);
+            clip-path: polygon(10% 0%, 90% 0%, 100% 50%, 90% 100%, 10% 100%, 0% 50%);
+            transition: background .18s ease, transform .18s ease, color .18s ease;
+        }
+
+        .hive-nav a:hover,
+        .hive-nav a:focus-visible {
+            background: var(--honey-gold);
+            color: var(--hive-black);
+            transform: translateY(-2px);
+            outline: none;
+        }
+
+        .hive-nav a .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--honey-bright);
+        }
+
+        .atividades {
+            position: relative;
+            z-index: 1;
+            padding: 20px 0 60px;
+        }
+
+        .center {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .eixo-container {
+            margin-top: 56px;
+            scroll-margin-top: 5.5rem;
+        }
+
+        .eixo-container h1 {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            font-family: 'Fraunces', serif;
+            font-size: clamp(1.4rem, 3vw, 2rem);
+            font-weight: 700;
+            line-height: 1.25;
+            letter-spacing: -.01em;
+            margin: 0 0 26px;
+        }
+
+        .eixo-container h1::after {
+            content: '';
+            flex: 1 1 auto;
+            height: 1px;
+            background: repeating-linear-gradient(90deg, var(--comb-line) 0 6px, transparent 6px 12px);
+        }
+
+        .eixo-badge {
+            flex: 0 0 auto;
+            width: 52px;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+            background: linear-gradient(160deg, var(--honey-bright), var(--honey-deep));
+            color: var(--hive-black);
+            font-family: 'Space Mono', monospace;
+            font-weight: 700;
+            font-size: 17px;
+        }
+
+        .info-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.5rem;
+            background: var(--hive-brown-2);
+            border: 1px solid var(--comb-line);
+            border-radius: 12px;
+            padding: 2.5rem;
+            box-shadow: 0 18px 40px rgba(0, 0, 0, .3);
+            transition: transform .3s ease, border-color .3s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--honey-gold);
+        }
+
+        .card-icon {
+            width: 32px;
+            height: 32px;
+            flex-shrink: 0;
+            color: var(--honey-gold);
+            fill: var(--honey-gold);
+        }
+
+        .card-content {
+            min-width: 0;
+        }
+
+        .card-content p {
+            color: var(--text-muted);
+            font-size: 1.02rem;
+            line-height: 1.8;
+            margin-bottom: 1.4rem;
+        }
+
+        .card-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        .card-content p strong,
+        .reference-list strong {
+            color: var(--honey-bright);
+            font-weight: 600;
+        }
+
+        .reference-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .reference-list li {
+            color: var(--text-muted);
+            font-size: .96rem;
+            line-height: 1.7;
+            padding-left: 1.6rem;
+            text-indent: -1.6rem;
+            word-break: break-word;
+        }
+
+        .reference-list a {
+            color: var(--honey-gold);
+            text-decoration: underline;
+            text-decoration-thickness: 1px;
+            text-underline-offset: 3px;
+            transition: color .18s ease;
+        }
+
+        .reference-list a:hover,
+        .reference-list a:focus-visible {
+            color: var(--honey-bright);
+            outline: none;
+        }
+
+        .home-fab {
+            position: fixed;
+            bottom: calc(1.1rem + env(safe-area-inset-bottom));
+            left: 1.1rem;
+            z-index: 60;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--hive-brown-2);
+            border: 1px solid var(--comb-line);
+            color: var(--honey-bright);
+            font-family: 'Space Mono', monospace;
+            font-weight: 700;
+            font-size: 11.5px;
+            letter-spacing: .04em;
+            padding: 11px 16px;
+            border-radius: 999px;
+            text-decoration: none;
+            box-shadow: 0 10px 26px rgba(0, 0, 0, .35);
+            transition: background .18s ease, transform .18s ease;
+        }
+
+        .home-fab:hover {
+            background: var(--honey-gold);
+            color: var(--hive-black);
+            transform: translateY(-2px);
+        }
+
+        footer.hive-footer {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 50px 24px 40px;
+            color: var(--text-muted);
+            font-family: 'Space Mono', monospace;
+            font-size: 11.5px;
+            letter-spacing: .04em;
+        }
+
+        @media (max-width: 900px) {
+            .hive-header {
+                padding: 48px 20px 18px;
+            }
+
+            .center {
+                padding: 0 20px;
+            }
+
+            .eixo-container {
+                margin-top: 44px;
+            }
+
+            .eixo-badge {
+                width: 46px;
+                height: 46px;
+                font-size: 15px;
+            }
+
+            .info-card {
+                padding: 2rem;
+                gap: 1.2rem;
+            }
+
+            .card-content p,
+            .reference-list li {
+                font-size: .94rem;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .hive-header {
+                padding: 44px 18px 16px;
+            }
+
+            .hive-header h2 {
+                font-size: clamp(1.9rem, 9vw, 2.5rem);
+            }
+
+            .eixo-container h1 {
+                font-size: 1.25rem;
+                gap: 10px;
+            }
+
+            .center {
+                padding: 0 16px;
+            }
+
+            .eixo-container {
+                margin-top: 40px;
+            }
+
+            .eixo-badge {
+                width: 42px;
+                height: 42px;
+                font-size: 14px;
+            }
+
+            .info-card {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1.5rem;
+            }
+
+            .card-content p {
+                font-size: .96rem;
+                line-height: 1.7;
+            }
+
+            .reference-list li {
+                font-size: .9rem;
+                padding-left: 0;
+                text-indent: 0;
+            }
+
+            .hive-nav a {
+                font-size: 11px;
+                padding: 8px 12px 8px 10px;
+            }
+
+            footer.hive-footer {
+                padding-bottom: 92px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .hive-nav a {
+                font-size: 10px;
+                letter-spacing: .02em;
+                padding: 7px 10px 7px 8px;
+            }
+
+            .eixo-badge {
+                width: 38px;
+                height: 38px;
+                font-size: 12px;
+            }
+
+            .info-card {
+                padding: 1.2rem;
+            }
+
+            .card-content p {
+                font-size: .9rem;
+            }
+
+            .home-fab {
+                padding: 9px 13px;
+                font-size: 10.5px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation: none !important;
+                transition: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="bg-glow-container">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <header class="hive-header">
+        <div class="eyebrow">portfólio <span>2026</span> — ensino médio integrado</div>
+        <h2>Considerações Finais<br>&amp; Referências</h2>
+    </header>
+
+    <nav class="hive-nav" aria-label="Seções da página">
+        <a href="#consideracoes-finais"><span class="dot"></span>Considerações Finais</a>
+        <a href="#referencias"><span class="dot"></span>Referências</a>
+    </nav>
+
+    <div class="atividades">
+        <div class="center">
+
+            <section class="eixo-container" id="consideracoes-finais">
+                <h1><span class="eixo-badge">01</span>Considerações Finais</h1>
+                <div class="info-card">
+                    <svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M6 2h9l5 5v15H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm9 0v5h5M8 12h8M8 16h8M8 20h5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                    <div class="card-content">
+                        <p>A realização deste portfólio proporcionou uma oportunidade única de consolidar todos os aprendizados ao longo do último ano no Ensino Médio Integrado ao Técnico em Informática para Internet. Cada área do conhecimento, desde Linguagens e suas Tecnologias até Formação Técnica Profissional, contribuiu de maneira significativa para o desenvolvimento das minhas habilidades acadêmicas, técnicas e pessoais. Os projetos realizados demonstram não apenas o domínio técnico de ferramentas e linguagens de programação, mas também a capacidade de trabalhar em equipe, resolver problemas reais e aplicar o conhecimento de forma prática e criativa.</p>
+                        <p>Ao longo dessa jornada, enfrentei desafios que exigiram dedicação, pesquisa e perseverança. O desenvolvimento de sistemas como o sistema de clínica médica, a calculadora em JavaScript, e os projetos integradores em equipe fortaleceram minha visão crítica e minha capacidade de transformar ideias em soluções concretas. Acredito que o conhecimento adquirido será fundamental para minha trajetória futura, tanto no mercado de trabalho quanto na continuidade dos estudos acadêmicos. Agradeço aos professores, colegas e familiares pelo apoio constante durante toda essa caminhada.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="eixo-container" id="referencias">
+                <h1><span class="eixo-badge">02</span>Referências</h1>
+                <div class="info-card">
+                    <svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                    <div class="card-content">
+                        <ol class="reference-list">
+                            <li>BRASIL. Ministério da Educação. <strong>Base Nacional Comum Curricular (BNCC)</strong>. Brasília: MEC, 2018. Disponível em: <a href="http://basenacionalcomum.mec.gov.br/" target="_blank" rel="noopener noreferrer">http://basenacionalcomum.mec.gov.br/</a>. Acesso em: nov. 2026.</li>
+                            <li>SESI – Serviço Social da Indústria. <strong>Proposta Pedagógica do Ensino Médio Integrado</strong>. Teresina: SESI-PI, 2024.</li>
+                            <li>SENAI – Serviço Nacional de Aprendizagem Industrial. <strong>Plano de Curso: Técnico em Informática para Internet</strong>. Teresina: SENAI-PI, 2024.</li>
+                            <li>MOZILLA DEVELOPER NETWORK (MDN). <strong>Documentação HTML, CSS e JavaScript</strong>. Disponível em: <a href="https://developer.mozilla.org/pt-BR/" target="_blank" rel="noopener noreferrer">https://developer.mozilla.org/pt-BR/</a>. Acesso em: nov. 2026.</li>
+                            <li>ORACLE. <strong>MySQL 8.0 Reference Manual</strong>. Disponível em: <a href="https://dev.mysql.com/doc/" target="_blank" rel="noopener noreferrer">https://dev.mysql.com/doc/</a>. Acesso em: nov. 2026.</li>
+                            <li>FLANAGAN, David. <strong>JavaScript: O Guia Definitivo</strong>. 6. ed. Porto Alegre: Bookman, 2013.</li>
+                        </ol>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <a class="home-fab" href="./index.html">← Início</a>
+
+    <footer class="hive-footer">© 2026 Carlos Heitor <span class="dot">•</span> todos os direitos reservados</footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="env-config.js"></script>
+    <script src="supabaseClient.js"></script>
+    <script src="protect.js"></script>
+</body>
+
+</html>

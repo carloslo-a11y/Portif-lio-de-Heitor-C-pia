@@ -39,6 +39,8 @@ drop policy if exists "usuarios_publico" on public.usuarios;
 
 revoke all on public.usuarios from anon, authenticated;
 
+drop function if exists public.fazer_login(text, text);
+
 create or replace function public.fazer_login(p_email text, p_senha text)
 returns table (id bigint, nome text, email text, tipo text, papel text)
 language plpgsql

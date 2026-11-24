@@ -221,6 +221,12 @@
             padding: 20px 0 60px;
         }
 
+        .center {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
         .eixo-container {
             margin-top: 56px;
             opacity: 0;
@@ -293,109 +299,291 @@
             color: var(--honey-bright);
         }
 
-        /* ---------- image gallery: hex cells ---------- */
-        .image-gallery {
+        /* ---------- add attachment form ---------- */
+        .anexo-form {
+            max-width: 760px;
+            margin: 34px auto 6px;
+            padding: 20px 22px 22px;
+            background: rgba(46, 29, 12, .72);
+            border: 1px solid var(--comb-line);
+            border-radius: 14px;
+            backdrop-filter: blur(6px);
+            box-shadow: 0 18px 40px rgba(0, 0, 0, .3);
+        }
+
+        .anexo-form h3 {
+            margin: 0 0 4px;
             display: flex;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 6px 4px;
-            row-gap: 34px;
-        }
-
-        .attach-item {
-            position: relative;
-            flex: 0 0 auto;
-            width: 250px;
-            height: 250px;
-        }
-
-        .attach-item img {
-            width: 100%;
-            height: 250px;
-            aspect-ratio: 1/.92;
-            object-fit: cover;
-            box-shadow: 0 10px 22px rgba(0, 0, 0, .35);
-            transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
-            display: block;
-            cursor: pointer;
-        }
-
-        .attach-item img:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 16px 30px rgba(0, 0, 0, .42);
-            filter: brightness(1.05);
-        }
-
-        .attach-item .remove-btn {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            width: 30px;
-            height: 30px;
-            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
-            background: var(--danger);
-            color: #fff;
-            border: none;
-            font-size: 15px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: opacity .18s ease;
-        }
-
-        .attach-item:hover .remove-btn {
-            opacity: 1;
-        }
-
-        .attach-item .caption {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(transparent, rgba(10, 5, 0, .9));
-            padding: 28px 8px 6px;
-            font-family: 'Space Mono', monospace;
-            font-size: 10.5px;
-            line-height: 1.4;
-            color: var(--text-muted);
-            outline: none;
-        }
-
-        .attach-item .caption:focus {
-            color: var(--text-light);
-        }
-
-        /* ---------- add image button ---------- */
-        .add-item-btn {
-            flex: 0 0 auto;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
             gap: 8px;
-            width: 140px;
-            height: 140px;
-            border: 2px dashed var(--comb-line);
-            background: rgba(230, 162, 51, .04);
-            color: var(--text-muted);
-            font-family: 'Space Mono', monospace;
-            font-size: 11px;
-            cursor: pointer;
-            align-self: center;
-            transition: border-color .18s ease, background .18s ease, color .18s ease;
-        }
-
-        .add-item-btn:hover {
-            border-color: var(--honey-gold);
-            background: rgba(230, 162, 51, .1);
+            font-family: 'Fraunces', serif;
+            font-size: 1.2rem;
             color: var(--honey-bright);
         }
 
-        .add-item-btn .plus {
-            font-size: 26px;
+        .anexo-form .form-hint {
+            margin: 0 0 16px;
+            color: var(--text-muted);
+            font-size: 12.5px;
+            font-family: 'Space Mono', monospace;
+        }
+
+        .anexo-form .form-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .anexo-form .field {
+            flex: 1 1 230px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-top: 6px;
+        }
+
+        .anexo-form label {
+            font-family: 'Space Mono', monospace;
+            font-size: 10.5px;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        .anexo-form input[type="text"],
+        .anexo-form select {
+            background: var(--hive-black);
+            border: 1px solid var(--comb-line);
+            color: var(--text-light);
+            border-radius: 8px;
+            padding: 10px 12px;
+            font: 500 14px 'Work Sans', sans-serif;
+            outline: none;
+        }
+
+        .anexo-form input[type="text"]:focus,
+        .anexo-form select:focus {
+            border-color: var(--honey-gold);
+        }
+
+        .anexo-form input[type="file"] {
+            display: none;
+        }
+
+        .anexo-form .file-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: var(--hive-brown-2);
+            border: 1px dashed var(--honey-gold);
+            color: var(--text-light);
+            border-radius: 8px;
+            padding: 11px 12px;
+            cursor: pointer;
+            text-align: center;
+            font: 500 13.5px 'Work Sans', sans-serif;
+        }
+
+        .anexo-form .file-btn:hover {
+            background: var(--hive-brown);
+        }
+
+        .anexo-form .file-name {
+            font-size: 12px;
+            color: var(--honey-bright);
+            word-break: break-word;
+            min-height: 15px;
+            font-family: 'Space Mono', monospace;
+        }
+
+        .anexo-form .add-btn {
+            margin-top: 14px;
+            width: 100%;
+            border: none;
+            cursor: pointer;
+            font-family: 'Space Mono', monospace;
+            font-weight: 700;
+            letter-spacing: .05em;
+            font-size: 14px;
+            background: linear-gradient(160deg, var(--honey-bright), var(--honey-deep));
+            color: var(--hive-black);
+            padding: 13px 18px;
+            border-radius: 8px;
+            clip-path: polygon(6% 0, 94% 0, 100% 50%, 94% 100%, 6% 100%, 0 50%);
+            transition: transform .18s ease, filter .18s ease;
+        }
+
+        .anexo-form .add-btn:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.06);
+        }
+
+        .anexo-form .add-btn:disabled {
+            opacity: .6;
+            cursor: wait;
+            transform: none;
+        }
+
+        /* ---------- attachment cards ---------- */
+        .image-gallery {
+            display: flex;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 28px;
+            row-gap: 46px;
+        }
+
+        .anexo-item {
+            position: relative;
+            width: 320px;
+        }
+
+        .anexo-frame {
+            position: relative;
+            width: 320px;
+            aspect-ratio: 16/10;
+            padding: 12px;
+            overflow: hidden;
+            background: linear-gradient(160deg, var(--honey-bright), var(--honey-deep));
+            border-radius: 14px;
+            box-shadow: 0 10px 24px rgba(0, 0, 0, .38),
+                0 0 0 1px var(--comb-line),
+                inset 0 0 0 1px rgba(255, 201, 60, .25);
+            transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
+        }
+
+        .anexo-frame::before {
+            content: '';
+            position: absolute;
+            inset: 6px;
+            border: 1px dashed rgba(23, 15, 9, .45);
+            border-radius: 9px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .anexo-frame::after {
+            content: '';
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            width: 16px;
+            height: 16px;
+            background: var(--hive-black);
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            opacity: .35;
+            z-index: 2;
+        }
+
+        .anexo-frame img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            border-radius: 7px;
+            background: var(--hive-black);
+            object-fit: contain;
+            box-shadow: 0 0 0 1px rgba(255, 255, 255, .08);
+            cursor: pointer;
+        }
+
+        .anexo-item:hover .anexo-frame {
+            transform: translateY(-5px);
+            box-shadow: 0 16px 34px rgba(0, 0, 0, .45),
+                0 0 0 1px var(--honey-gold),
+                inset 0 0 0 1px rgba(255, 201, 60, .3);
+            filter: brightness(1.04);
+        }
+
+        .anexo-item .remove-btn,
+        .anexo-item .edit-btn,
+        .anexo-item .replace-btn {
+            position: absolute;
+            top: -10px;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            border: 1px solid var(--comb-line);
+            background: var(--hive-black);
+            color: var(--honey-bright);
+            cursor: pointer;
             line-height: 1;
+            opacity: .55;
+            transition: opacity .15s ease;
+            z-index: 3;
+        }
+
+        .anexo-item .remove-btn {
+            right: -10px;
+            font-size: 15px;
+        }
+
+        .anexo-item .edit-btn {
+            left: -10px;
+            border-color: var(--honey-gold);
+            font-size: 13px;
+        }
+
+        .anexo-item .replace-btn {
+            left: 22px;
+            border-color: var(--honey-gold);
+            font-size: 13px;
+        }
+
+        .anexo-item:hover .edit-btn,
+        .anexo-item:hover .replace-btn {
+            opacity: 1;
+        }
+
+        .anexo-item .anexo-texto {
+            width: 320px;
+            font-family: 'Work Sans', sans-serif;
+            font-size: 12.5px;
+            color: var(--text-light);
+            margin-top: 10px;
+            text-align: center;
+            line-height: 1.4;
+            word-break: break-word;
+        }
+
+        .anexo-item .anexo-texto-ed {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 10px;
+        }
+
+        .anexo-item .anexo-texto-ed input[type="text"] {
+            background: var(--hive-black);
+            border: 1px solid var(--honey-gold);
+            color: var(--text-light);
+            border-radius: 6px;
+            padding: 6px 8px;
+            font: 500 12px 'Work Sans', sans-serif;
+            outline: none;
+            width: 260px;
+        }
+
+        .anexo-item .anexo-texto-ed .text-ok {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 1px solid var(--comb-line);
+            background: linear-gradient(160deg, var(--honey-bright), var(--honey-deep));
+            color: var(--hive-black);
+            cursor: pointer;
+            font-size: 13px;
+            line-height: 1;
+            flex-shrink: 0;
+        }
+
+        .gallery-empty {
+            width: 100%;
+            justify-content: center !important;
+            font-family: 'Space Mono', monospace;
+            font-size: 12.5px;
+            color: var(--text-muted);
         }
 
         /* ---------- lightbox ---------- */
@@ -511,13 +699,38 @@
         }
 
         @media (max-width:640px) {
-            .attach-item {
+            .anexo-item,
+            .anexo-frame,
+            .anexo-item .anexo-texto {
                 width: 130px;
             }
 
-            .attach-item img,
-            .attach-item {
-                height: 130px;
+            .anexo-frame {
+                padding: 8px;
+            }
+
+            .anexo-item .anexo-texto {
+                font-size: 11.5px;
+            }
+
+            .anexo-item .anexo-texto-ed {
+                flex-direction: column;
+            }
+
+            .anexo-item .anexo-texto-ed input[type="text"] {
+                width: 130px;
+            }
+
+            .anexo-item .remove-btn,
+            .anexo-item .edit-btn,
+            .anexo-item .replace-btn {
+                width: 22px;
+                height: 22px;
+                font-size: 13px;
+            }
+
+            .anexo-form {
+                padding: 16px;
             }
 
             .hive-header {
@@ -543,6 +756,7 @@
     </div>
 
     <div class="atividades">
+        <div class="center">
 
         <div class="eixo-container" data-step="1">
             <h1>ANEXO 1:</h1>
@@ -553,10 +767,6 @@
                 tenham sido digitalizadas).
             </p>
             <div class="image-gallery"></div>
-            <div class="gallery-actions" style="margin-top:18px;">
-                <button type="button" class="add-item-btn"><span class="plus">+</span>Adicionar anexo</button>
-                <input type="file" accept="image/*" class="file-input" hidden>
-            </div>
         </div>
 
         <div class="eixo-container" data-step="2">
@@ -568,10 +778,6 @@
                 início do ano.
             </p>
             <div class="image-gallery"></div>
-            <div class="gallery-actions" style="margin-top:18px;">
-                <button type="button" class="add-item-btn"><span class="plus">+</span>Adicionar anexo</button>
-                <input type="file" accept="image/*" class="file-input" hidden>
-            </div>
         </div>
 
         <div class="eixo-container" data-step="3">
@@ -583,10 +789,6 @@
                 gostou de aprender.
             </p>
             <div class="image-gallery"></div>
-            <div class="gallery-actions" style="margin-top:18px;">
-                <button type="button" class="add-item-btn"><span class="plus">+</span>Adicionar anexo</button>
-                <input type="file" accept="image/*" class="file-input" hidden>
-            </div>
         </div>
 
         <div class="eixo-container" data-step="4">
@@ -603,24 +805,16 @@
                 bairro ou o meio ambiente.
             </p>
             <div class="image-gallery"></div>
-            <div class="gallery-actions" style="margin-top:18px;">
-                <button type="button" class="add-item-btn"><span class="plus">+</span>Adicionar anexo</button>
-                <input type="file" accept="image/*" class="file-input" hidden>
-            </div>
         </div>
 
         <div class="eixo-container" data-step="5">
-            <h1>a</h1>
+            <h1>ANEXO 5:</h1>
             <p class="step-desc" contenteditable="true"><strong>Insira e descreva os anexos.</strong>
                 <br><br>Coloque as fotos de passeios, as fichas de autoavaliação do aluno e as avaliações diagnósticas.
                 <br>Dica de ouro: coloque uma pequena legenda em cada anexo explicativa (Ex: "Anexo A: Foto da maquete
                 sobre o relevo do bairro, feita em grupo no dia 15/05").
             </p>
             <div class="image-gallery"></div>
-            <div class="gallery-actions" style="margin-top:18px;">
-                <button type="button" class="add-item-btn"><span class="plus">+</span>Adicionar anexo</button>
-                <input type="file" accept="image/*" class="file-input" hidden>
-            </div>
         </div>
 
         <div class="eixo-container" data-step="6">
@@ -633,12 +827,9 @@
                 portfólio.
             </p>
             <div class="image-gallery"></div>
-            <div class="gallery-actions" style="margin-top:18px;">
-                <button type="button" class="add-item-btn"><span class="plus">+</span>Adicionar anexo</button>
-                <input type="file" accept="image/*" class="file-input" hidden>
-            </div>
         </div>
 
+        </div>
     </div>
 
     <div class="save-toast" id="save-toast">✓ Salvo</div>
